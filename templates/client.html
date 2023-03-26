@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ client.client_name }} - Client Information</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #3ddad7;
+        }
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ client.client_name }} - Client Information</h1>
+        <table>
+            <tr>
+                <th>Client ID</th>
+                <th>Client Name</th>
+                <th>Client Phone Number</th>
+                <th>Client Start Date</th>
+                <th>Client End Date</th>
+                <th>Client Inspection Date</th>
+                <th>Client Closing Date</th>
+            </tr>
+            <tr>
+                <td>{{ client.id }}</td>
+                <td>{{ client.client_name }}</td>
+                <td>{{ client.client_phone_number }}</td>
+                <td>{{ client.client_start_date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ client.client_end_date.strftime('%Y-%m-%d') if client.client_end_date else '' }}</td>
+                <td>{{ client.client_inspection_date.strftime('%Y-%m-%d') if client.client_inspection_date else '' }}</td>
+                <td>{{ client.client_closing_date.strftime('%Y-%m-%d') if client.client_closing_date else '' }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
