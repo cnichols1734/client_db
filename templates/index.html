@@ -93,6 +93,7 @@
             cursor: pointer;
         }
 
+
     </style>
 </head>
 <body>
@@ -146,14 +147,14 @@
                 <td><a href="/client/{{ client.id }}">{{ client.id }}</a></td>
                 <td><input type="text" name="client_name" value="{{ client.client_name }}"></td>
                 {% if client.properties %}
-    <td>
-    {% for property in client.properties %}
-        {{ property.street_name }} <br>
-    {% endfor %}
-    </td>
-{% else %}
-    <td>No properties added yet</td>
-{% endif %}
+                <td>
+                    {% for property in client.properties %}
+                    {{ property.street_name }} <br>
+                    {% endfor %}
+                </td>
+                {% else %}
+                <td>No properties added yet</td>
+                {% endif %}
 
                 <td><input type="date" name="client_start_date" value="{{ client.client_start_date }}"></td>
                 <td><input type="date" name="client_end_date" value="{{ client.client_end_date }}"></td>
@@ -244,6 +245,7 @@
             addPropertyModal.style.display = "block";
             document.getElementById("addPropertyForm").action = "/add_property/" + clientId;
         }
+
 
 </script>
 </body>

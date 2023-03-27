@@ -9,6 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clients.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_name = db.Column(db.String(100), nullable=False)
@@ -30,6 +31,7 @@ class Client(db.Model):
     def __repr__(self):
         return f"<Client {self.client_name}>"
 
+
 class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
@@ -49,11 +51,11 @@ class Property(db.Model):
         return f"{self.street_address} {self.street_name}"
 
 
-
 @app.route('/')
 def index():
     clients = Client.query.all()
     return render_template('index.html', clients=clients)
+
 
 @app.route('/add', methods=['POST'])
 def add_client():
@@ -61,13 +63,17 @@ def add_client():
         client_name=request.form['client_name'],
         client_phone_number=request.form['client_phone_number'],
         client_start_date=datetime.strptime(request.form['client_start_date'], '%Y-%m-%d').date(),
-        client_end_date=datetime.strptime(request.form['client_end_date'], '%Y-%m-%d').date() if request.form['client_end_date'] else None,
-        client_inspection_date=datetime.strptime(request.form['client_inspection_date'], '%Y-%m-%d').date() if request.form['client_inspection_date'] else None,
-        client_closing_date=datetime.strptime(request.form['client_closing_date'], '%Y-%m-%d').date() if request.form['client_closing_date'] else None
+        client_end_date=datetime.strptime(request.form['client_end_date'], '%Y-%m-%d').date() if request.form[
+            'client_end_date'] else None,
+        client_inspection_date=datetime.strptime(request.form['client_inspection_date'], '%Y-%m-%d').date() if
+        request.form['client_inspection_date'] else None,
+        client_closing_date=datetime.strptime(request.form['client_closing_date'], '%Y-%m-%d').date() if request.form[
+            'client_closing_date'] else None
     )
     db.session.add(client)
     db.session.commit()
     return redirect(url_for('index'))
+
 
 @app.route('/update/<int:id>', methods=['POST'])
 def update_client(id):
@@ -75,9 +81,12 @@ def update_client(id):
     client.client_name = request.form['client_name']
     client.client_phone_number = request.form['client_phone_number']
     client.client_start_date = datetime.strptime(request.form['client_start_date'], '%Y-%m-%d').date()
-    client.client_end_date = datetime.strptime(request.form['client_end_date'], '%Y-%m-%d').date() if request.form['client_end_date'] else None
-    client.client_inspection_date = datetime.strptime(request.form['client_inspection_date'], '%Y-%m-%d').date() if request.form['client_inspection_date'] else None
-    client.client_closing_date = datetime.strptime(request.form['client_closing_date'], '%Y-%m-%d').date() if request.form['client_closing_date'] else None
+    client.client_end_date = datetime.strptime(request.form['client_end_date'], '%Y-%m-%d').date() if request.form[
+        'client_end_date'] else None
+    client.client_inspection_date = datetime.strptime(request.form['client_inspection_date'], '%Y-%m-%d').date() if \
+    request.form['client_inspection_date'] else None
+    client.client_closing_date = datetime.strptime(request.form['client_closing_date'], '%Y-%m-%d').date() if \
+    request.form['client_closing_date'] else None
     db.session.commit()
     return redirect(url_for('index'))
 
@@ -86,6 +95,7 @@ def update_client(id):
 def client(id):
     client = Client.query.get_or_404(id)
     return render_template('client.html', client=client)
+
 
 @app.route('/add_property/<int:client_id>', methods=['POST'])
 def add_property(client_id):
@@ -110,10 +120,3 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
-
-
-
-
-
-
