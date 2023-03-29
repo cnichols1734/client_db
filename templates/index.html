@@ -7,22 +7,25 @@
     <title>Origen Realty Client Management</title>
     <style>
         body {
-            font-family: Verdana, sans-serif;
+            font-family: Calibri, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #3ddad7;
+            background-color: #f5f5f5;
         }
+
         .container {
             max-width: 1200px;
             width: 90%;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
+            color: Black;
         }
         form {
             display: grid;
@@ -33,9 +36,13 @@
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
         input {
             margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
         table {
             width: 100%;
@@ -48,8 +55,9 @@
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #4b7bec;
             font-weight: bold;
+            color: #fff;
         }
         tr:nth-child(even) {
             background-color: #f5f5f5;
@@ -76,6 +84,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 10px;
         }
 
         /* The Close Button */
@@ -92,9 +101,19 @@
             text-decoration: none;
             cursor: pointer;
         }
+        button[type="submit"] {
+            background-color: #007BFF;
+                    color: #fff;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-
-    </style>
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
 </head>
 <body>
 <div class="container">
@@ -105,27 +124,6 @@
             <input type="text" name="client_name" id="client_name" placeholder="Client Name" required>
         </div>
         <div>
-            <label for="client_phone_number">Client Phone Number</label>
-            <input type="text" name="client_phone_number" id="client_phone_number" placeholder="Client Phone Number"
-                   required>
-        </div>
-        <div>
-            <label for="client_start_date">Client Start Date</label>
-            <input type="date" name="client_start_date" id="client_start_date" required>
-        </div>
-        <div>
-            <label for="client_end_date">Client End Date</label>
-            <input type="date" name="client_end_date" id="client_end_date" value="">
-        </div>
-        <div>
-            <label for="client_inspection_date">Client Inspection Date</label>
-            <input type="date" name="client_inspection_date" id="client_inspection_date" value="">
-        </div>
-        <div>
-            <label for="client_closing_date">Client Closing Date</label>
-            <input type="date" name="client_closing_date" id="client_closing_date" value="">
-        </div>
-        <div>
             <button type="submit">Add Client</button>
         </div>
     </form>
@@ -133,37 +131,12 @@
         <tr>
             <th>Client ID</th>
             <th>Client Name</th>
-            <th>Property Name</th>
-            <th>Client Start Date</th>
-            <th>Client End Date</th>
-            <th>Client Inspection Date</th>
-            <th>Client Closing Date</th>
-            <th>Update</th>
             <th>Add Property</th>
         </tr>
         {% for client in clients %}
         <tr>
-            <form action="/update/{{ client.id }}" method="post">
-                <td><a href="/client/{{ client.id }}">{{ client.id }}</a></td>
-                <td><input type="text" name="client_name" value="{{ client.client_name }}"></td>
-                {% if client.properties %}
-                <td>
-                    {% for property in client.properties %}
-                    {{ property.street_name }} <br>
-                    {% endfor %}
-                </td>
-                {% else %}
-                <td>No properties added yet</td>
-                {% endif %}
-
-                <td><input type="date" name="client_start_date" value="{{ client.client_start_date }}"></td>
-                <td><input type="date" name="client_end_date" value="{{ client.client_end_date }}"></td>
-                <td><input type="date" name="client_inspection_date" value="{{ client.client_inspection_date }}"></td>
-                <td><input type="date" name="client_closing_date" value="{{ client.client_closing_date }}"></td>
-                <td>
-                    <button type="submit">Update</button>
-                </td>
-            </form>
+            <td><a href="/client/{{ client.id }}">{{ client.id }}</a></td>
+            <td>{{ client.client_name }}</td>
             <td>
                 <button id="addPropertyBtn-{{ client.id }}" onclick="openAddPropertyModal({{ client.id }})">Add
                     Property
@@ -173,7 +146,6 @@
         {% endfor %}
     </table>
 </div>
-
 <!-- The Add Property Modal -->
 <div id="addPropertyModal" class="modal">
     <div class="modal-content">
@@ -181,75 +153,83 @@
         <h2>Add Property</h2>
         <form id="addPropertyForm" action="" method="post">
             <div>
-                <label for="property_address">Property Address</label>
-                <input type="text" name="street_address" id="property_address" placeholder="Property Address" required>
+                <label for="street_address">Street Address</label>
+                <input type="text" name="street_address" id="street_address" placeholder="Street Address" required>
             </div>
             <div>
-                <label for="property_street_name">Property Street Name</label>
-                <input type="text" name="street_name" id="property_street_name" placeholder="Property Street Name"
-                       required>
+                <label for="option_period_expires">Option Period Expires</label>
+                <input type="date" name="option_period_expires" id="option_period_expires">
             </div>
             <div>
-                <label for="property_city">Property City</label>
-                <input type="text" name="city" id="property_city" placeholder="Property City" required>
+             <label for="survey_provided_by">Survey Provided By</label>
+                <select name="survey_provided_by" id="survey_provided_by" required>
+                    <option value="">Select Survey Provider</option>
+                    <option value="Seller New">Seller New</option>
+                    <option value="Seller Existing">Seller Existing</option>
+                    <option value="Buyer New">Buyer New</option>
+                    <option value="Buyer Existing">Buyer Existing</option>
+                    <option value="Survey Not Required">Survey Not Required</option>
+                </select>
             </div>
             <div>
-                <label for="property_state">Property State</label>
-                <input type="text" name="state" id="property_state" placeholder="Property State" required>
+                <label for="survey_due_date">Survey Due Date</label>
+                <input type="date" name="survey_due_date" id="survey_due_date">
             </div>
             <div>
-                <label for="property_zip">Property ZIP</label>
-                <input type="text" name="zip_code" id="property_zip" placeholder="Property ZIP" required>
+                <label for="buyer_financing_deadline">Buyer Financing Deadline</label>
+                <input type="date" name="buyer_financing_deadline" id="buyer_financing_deadline">
             </div>
             <div>
-                <label for="property_type">Property Type</label>
-                <input type="text" name="property_type" id="property_type" placeholder="Property Type" required>
+                <label for="appraisal">Appraisal</label>
+                <input type="date" name="appraisal" id="appraisal">
             </div>
             <div>
-                <label for="property_price">Property Price</label>
-                <input type="number" name="price" id="property_price" placeholder="Property Price" required>
+                <label for="buyer_final_walkthrough">Buyer Final Walkthrough</label>
+                <input type="date" name="buyer_final_walkthrough" id="buyer_final_walkthrough">
             </div>
             <div>
-                <label for="property_build_year">Property Build Year</label>
-                <input type="number" name="build_year" id="property_build_year" placeholder="Property Build Year"
-                       required>
+                <label for="agreed_upon_repairs">Agreed Upon Repairs</label>
+                <input type="date" name="agreed_upon_repairs" id="agreed_upon_repairs">
             </div>
-
+            <div>
+                <label for="closing_date">Closing Date</label>
+                <input type="date" name="closing_date" id="closing_date">
+            </div>
             <div>
                 <button type="submit">Add Property</button>
             </div>
         </form>
     </div>
 </div>
-
 <script>
-        // Get the modal
-        var addPropertyModal = document.getElementById("addPropertyModal");
+    // Get the modal
+    var modal = document.getElementById("addPropertyModal");
 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+    // Get the button that opens the modal
+    function openAddPropertyModal(clientId) {
+        modal.style.display = "block";
+        document.getElementById("addPropertyForm").action = "/add_property/" + clientId;
+    }
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            addPropertyModal.style.display = "none";
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == addPropertyModal) {
-                addPropertyModal.style.display = "none";
-            }
-        }
-
-        function openAddPropertyModal(clientId) {
-            addPropertyModal.style.display = "block";
-            document.getElementById("addPropertyForm").action = "/add_property/" + clientId;
-        }
-
-
+    };
 </script>
 </body>
 </html>
+
+
 
 
 
