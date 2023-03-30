@@ -102,28 +102,29 @@
             cursor: pointer;
         }
         button[type="submit"] {
-            background-color: #007BFF;
-                    color: #fff;
-        border: none;
-        padding: 8px 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+    background-color: #4b7bec;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+    margin-left: 10px;
+}
 
-    button[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-</style>
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+    </style>
 </head>
 <body>
 <div class="container">
     <h1>Origen Realty Client Management</h1>
     <form action="/add" method="post">
-        <div>
+        <div class="input-container">
             <label for="client_name">Client Name</label>
             <input type="text" name="client_name" id="client_name" placeholder="Client Name" required>
-        </div>
-        <div>
             <button type="submit">Add Client</button>
         </div>
     </form>
@@ -161,7 +162,7 @@
                 <input type="date" name="option_period_expires" id="option_period_expires">
             </div>
             <div>
-             <label for="survey_provided_by">Survey Provided By</label>
+                <label for="survey_provided_by">Survey Provided By</label>
                 <select name="survey_provided_by" id="survey_provided_by" required>
                     <option value="">Select Survey Provider</option>
                     <option value="Seller New">Seller New</option>
@@ -225,6 +226,7 @@
             modal.style.display = "none";
         }
     };
+
 </script>
 </body>
 </html>
