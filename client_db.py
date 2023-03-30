@@ -158,6 +158,16 @@ def delete_property(id):
     db.session.commit()
     return redirect(url_for('client', id=client_id))
 
+@app.route('/clients/property_count')
+def get_property_counts():
+    clients = Client.query.all()
+    client_property_counts = {}
+    for client in clients:
+        client_property_counts[client.id] = len(client.properties)
+    return client_property_counts
+
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
