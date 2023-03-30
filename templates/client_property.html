@@ -65,6 +65,81 @@
         tr:nth-child(even) {
             background-color: #f5f5f5;
         }
+        /* Dark theme styles */
+body.dark-theme {
+    background-color: #1c1c1c;
+}
+
+.dark-theme .container {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.dark-theme h1 {
+    color: #e0e0e0;
+}
+
+.dark-theme label {
+    color: #e0e0e0;
+}
+
+.dark-theme input {
+    background-color: #3c3c3c;
+    color: #e0e0e0;
+    border: 1px solid #565656;
+}
+
+.dark-theme table {
+    color: #e0e0e0;
+}
+
+.dark-theme th {
+    background-color: #4a4a4a;
+    color: #e0e0e0;
+}
+
+.dark-theme tr:nth-child(even) {
+    background-color: #323232;
+}
+
+.dark-theme .modal-content {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.dark-theme .close {
+    color: #e0e0e0;
+}
+
+.dark-theme .close:hover,
+.dark-theme .close:focus {
+    color: #ffffff;
+}
+
+.dark-theme button[type="submit"] {
+    background-color: #4a4a4a;
+    color: #e0e0e0;
+}
+
+.dark-theme button[type="submit"]:hover {
+    background-color: #707070;
+}
+.theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-theme .theme-toggle {
+            background-color: #2d2d2d;
+        }
 
 
 
@@ -104,10 +179,12 @@
 
 
 
+
     </script>
     </script>
 </head>
 <body>
+<div class="theme-toggle" id="themeToggle">&#9788;</div>
 <div class="container">
     <a href="{{ url_for('index') }}" class="btn btn-primary" style="margin-top: 10px; margin-bottom: 10px;">Home</a>
     <h1>{{ client.client_name }} - Client & Property Information</h1>
@@ -212,6 +289,17 @@
     </div>
 
 </div>
+<script>
+        // Theme toggle button
+        var themeToggle = document.getElementById("themeToggle");
+        var isDarkTheme = false;
+
+        themeToggle.onclick = function() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle("dark-theme", isDarkTheme);
+        };
+
+</script>
 </body>
 </html>
 
