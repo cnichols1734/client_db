@@ -142,6 +142,21 @@ def update_property(id):
         closing_date=property.closing_date.strftime('%Y-%m-%d') if property.closing_date else None
     )
 
+@app.route('/delete_client/<int:id>', methods=['POST'])
+def delete_client(id):
+    client = Client.query.get_or_404(id)
+    db.session.delete(client)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+
+@app.route('/delete_property/<int:id>', methods=['POST'])
+def delete_property(id):
+    property = Property.query.get_or_404(id)
+    client_id = property.client_id
+    db.session.delete(property)
+    db.session.commit()
+    return redirect(url_for('client', id=client_id))
 
 if __name__ == '__main__':
     with app.app_context():
