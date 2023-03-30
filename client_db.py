@@ -1,12 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask import jsonify
 from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
+
+
 @app.template_filter('date')
 def format_date(value, format='%B %d, %Y'):
     return value.strftime(format)
+
+
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clients.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -61,7 +66,6 @@ def update_client(id):
     return redirect(url_for('index'))
 
 
-
 @app.route('/client/<int:id>')
 def client(id):
     client = Client.query.get_or_404(id)
@@ -74,14 +78,21 @@ def add_property(client_id):
     property = Property(
         client_id=client.id,
         street_address=request.form['street_address'],
-        option_period_expires=datetime.strptime(request.form['option_period_expires'], '%Y-%m-%d').date() if request.form['option_period_expires'] else None,
+        option_period_expires=datetime.strptime(request.form['option_period_expires'], '%Y-%m-%d').date() if
+        request.form['option_period_expires'] else None,
         survey_provided_by=request.form['survey_provided_by'],
-        survey_due_date=datetime.strptime(request.form['survey_due_date'], '%Y-%m-%d').date() if request.form['survey_due_date'] else None,
-        buyer_financing_deadline=datetime.strptime(request.form['buyer_financing_deadline'], '%Y-%m-%d').date() if request.form['buyer_financing_deadline'] else None,
-        appraisal=datetime.strptime(request.form['appraisal'], '%Y-%m-%d').date() if request.form['appraisal'] else None,
-        buyer_final_walkthrough=datetime.strptime(request.form        ['buyer_final_walkthrough'], '%Y-%m-%d').date() if request.form['buyer_final_walkthrough'] else None,
-        agreed_upon_repairs=datetime.strptime(request.form['agreed_upon_repairs'], '%Y-%m-%d').date() if request.form['agreed_upon_repairs'] else None,
-        closing_date=datetime.strptime(request.form['closing_date'], '%Y-%m-%d').date() if request.form['closing_date'] else None
+        survey_due_date=datetime.strptime(request.form['survey_due_date'], '%Y-%m-%d').date() if request.form[
+            'survey_due_date'] else None,
+        buyer_financing_deadline=datetime.strptime(request.form['buyer_financing_deadline'], '%Y-%m-%d').date() if
+        request.form['buyer_financing_deadline'] else None,
+        appraisal=datetime.strptime(request.form['appraisal'], '%Y-%m-%d').date() if request.form[
+            'appraisal'] else None,
+        buyer_final_walkthrough=datetime.strptime(request.form['buyer_final_walkthrough'], '%Y-%m-%d').date() if
+        request.form['buyer_final_walkthrough'] else None,
+        agreed_upon_repairs=datetime.strptime(request.form['agreed_upon_repairs'], '%Y-%m-%d').date() if request.form[
+            'agreed_upon_repairs'] else None,
+        closing_date=datetime.strptime(request.form['closing_date'], '%Y-%m-%d').date() if request.form[
+            'closing_date'] else None
     )
     db.session.add(property)
     db.session.commit()
@@ -95,10 +106,10 @@ def update_property(id):
     if request.method == 'POST':
         property.street_address = request.form['street_address']
         property.option_period_expires = datetime.strptime(request.form['option_period_expires'], '%Y-%m-%d').date() if \
-        request.form['option_period_expires'] else None
+            request.form['option_period_expires'] else None
         property.survey_provided_by = request.form['survey_provided_by']
         property.survey_due_date = datetime.strptime(request.form['survey_due_date'], '%Y-%m-%d').date() if \
-        request.form['survey_due_date'] else None
+            request.form['survey_due_date'] else None
         property.buyer_financing_deadline = datetime.strptime(request.form['buyer_financing_deadline'],
                                                               '%Y-%m-%d').date() if request.form[
             'buyer_financing_deadline'] else None
@@ -108,19 +119,31 @@ def update_property(id):
                                                              '%Y-%m-%d').date() if request.form[
             'buyer_final_walkthrough'] else None
         property.agreed_upon_repairs = datetime.strptime(request.form['agreed_upon_repairs'], '%Y-%m-%d').date() if \
-        request.form['agreed_upon_repairs'] else None
+            request.form['agreed_upon_repairs'] else None
         property.closing_date = datetime.strptime(request.form['closing_date'], '%Y-%m-%d').date() if request.form[
             'closing_date'] else None
 
         db.session.commit()
         return redirect(url_for('client', id=property.client_id))
 
-    return render_template('update_property.html', property=property)
+    return jsonify(
+        id=property.id,
+        street_address=property.street_address,
+        option_period_expires=property.option_period_expires.strftime(
+            '%Y-%m-%d') if property.option_period_expires else None,
+        survey_provided_by=property.survey_provided_by,
+        survey_due_date=property.survey_due_date.strftime('%Y-%m-%d') if property.survey_due_date else None,
+        buyer_financing_deadline=property.buyer_financing_deadline.strftime(
+            '%Y-%m-%d') if property.buyer_financing_deadline else None,
+        appraisal=property.appraisal.strftime('%Y-%m-%d') if property.appraisal else None,
+        buyer_final_walkthrough=property.buyer_final_walkthrough.strftime(
+            '%Y-%m-%d') if property.buyer_final_walkthrough else None,
+        agreed_upon_repairs=property.agreed_upon_repairs.strftime('%Y-%m-%d') if property.agreed_upon_repairs else None,
+        closing_date=property.closing_date.strftime('%Y-%m-%d') if property.closing_date else None
+    )
 
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
-

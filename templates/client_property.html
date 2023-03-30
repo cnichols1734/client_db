@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ client.client_name }} - Client & Property Information</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
     body {
             font-family: Calibri, sans-serif;
@@ -62,7 +65,45 @@
         tr:nth-child(even) {
             background-color: #f5f5f5;
         }
+
+
     </style>
+    <script>
+    $(document).ready(function () {
+        $(document).on("click", ".update-property", function () {
+            var propertyId = $(this).data("id");
+            $.getJSON("/update_property/" + propertyId, function (data) {
+                $("#update-property-modal #property-id").val(data.id);
+                $("#update-property-modal #street-address").val(data.street_address);
+                $("#update-property-modal #option-period-expires").val(data.option_period_expires || "");
+                $("#update-property-modal #survey-provided-by").val(data.survey_provided_by);
+                $("#update-property-modal #survey-due-date").val(data.survey_due_date || "");
+                $("#update-property-modal #buyer-financing-deadline").val(data.buyer_financing_deadline || "");
+                $("#update-property-modal #appraisal").val(data.appraisal || "");
+                $("#update-property-modal #buyer-final-walkthrough").val(data.buyer_final_walkthrough || "");
+                $("#update-property-modal #agreed-upon-repairs").val(data.agreed_upon_repairs || "");
+                $("#update-property-modal #closing-date").val(data.closing_date || "");
+                $("#update-property-modal").modal("show");
+            });
+        });
+
+        $("#update-property-modal #save").click(function () {
+            var propertyId = $("#update-property-modal #property-id").val();
+            var url = "{{ url_for('update_property', id=0) }}".replace('/0', '/' + propertyId);
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: $("#update-property-form").serialize(),
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+    });
+
+
+    </script>
+    </script>
 </head>
 <body>
 <div class="container">
@@ -91,31 +132,93 @@
             <th>Buyer Final Walkthrough</th>
             <th>Agreed Upon Repairs</th>
             <th>Closing Date</th>
+            <th>Update Property</th>
         </tr>
         {% if client.properties %}
-            {% for property in client.properties|sort(attribute='id') %}
-                <tr>
-                    <td>{{ property.id }}</td>
-                    <td>{{ property.street_address }}</td>
-                    <td>{{ property.option_period_expires.strftime('%Y-%m-%d') if property.option_period_expires else '' }}</td>
-                    <td>{{ property.survey_provided_by }}</td>
-                    <td>{{ property.survey_due_date.strftime('%Y-%m-%d') if property.survey_due_date else '' }}</td>
-                    <td>{{ property.buyer_financing_deadline.strftime('%Y-%m-%d') if property.buyer_financing_deadline else '' }}</td>
-                    <td>{{ property.appraisal.strftime('%Y-%m-%d') if property.appraisal else '' }}</td>
-                    <td>{{ property.buyer_final_walkthrough.strftime('%Y-%m-%d') if property.buyer_final_walkthrough else '' }}</td>
-                    <td>{{ property.agreed_upon_repairs.strftime('%Y-%m-%d') if property.agreed_upon_repairs else '' }}</td>
-                    <td>{{ property.closing_date.strftime('%Y-%m-%d') if property.closing_date else '' }}</td>
-                </tr>
-            {% endfor %}
+        {% for property in client.properties|sort(attribute='id') %}
+        <tr>
+            <td>{{ property.id }}</td>
+            <td>{{ property.street_address }}</td>
+            <td>{{ property.option_period_expires.strftime('%Y-%m-%d') if property.option_period_expires else '' }}</td>
+            <td>{{ property.survey_provided_by }}</td>
+            <td>{{ property.survey_due_date.strftime('%Y-%m-%d') if property.survey_due_date else '' }}</td>
+            <td>{{ property.buyer_financing_deadline.strftime('%Y-%m-%d') if property.buyer_financing_deadline else ''
+                }}
+            </td>
+            <td>{{ property.appraisal.strftime('%Y-%m-%d') if property.appraisal else '' }}</td>
+            <td>{{ property.buyer_final_walkthrough.strftime('%Y-%m-%d') if property.buyer_final_walkthrough else ''
+                }}
+            </td>
+            <td>{{ property.agreed_upon_repairs.strftime('%Y-%m-%d') if property.agreed_upon_repairs else '' }}</td>
+            <td>{{ property.closing_date.strftime('%Y-%m-%d') if property.closing_date else '' }}</td>
+            <td>
+                <button type="button" class="btn btn-primary update-property" data-id="{{ property.id }}">Update
+                    Property
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
         {% else %}
-            <tr>
-                <td colspan="10" style="text-align:center;">No Property Associated</td>
-            </tr>
+        <tr>
+            <td colspan="11" style="text-align:center;">No Property Associated</td>
+        </tr>
         {% endif %}
     </table>
 </div>
+<!-- Update Property Modal -->
+<div id="update-property-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update Property</h4>
+            </div>
+            <div class="modal-body">
+                <form id="update-property-form">
+                    <input type="hidden" id="property-id" name="property_id">
+                    <label for="street-address">Street Address:</label>
+                    <input type="text" id="street-address" name="street_address" required>
+                    <label for="option-period-expires">Option Period Expires:</label>
+                    <input type="date" id="option-period-expires" name="option_period_expires">
+                    <label for="survey-provided-by">Survey Provided By:</label>
+                    <select id="survey-provided-by" name="survey_provided_by">
+                        <option value="">Select Survey Provider</option>
+                        <option value="Seller New">Seller New</option>
+                        <option value="Seller Existing">Seller Existing</option>
+                        <option value="Buyer New">Buyer New</option>
+                        <option value="Buyer Existing">Buyer Existing</option>
+                        <option value="Survey Not Required">Survey Not Required</option>
+                    </select>
+                    <label for="survey-due-date">Survey Due Date:</label>
+                    <input type="date" id="survey-due-date" name="survey_due_date">
+                    <label for="buyer-financing-deadline">Buyer Financing Deadline:</label>
+                    <input type="date" id="buyer-financing-deadline" name="buyer_financing_deadline">
+                    <label for="appraisal">Appraisal:</label>
+                    <input type="date" id="appraisal" name="appraisal">
+                    <label for="buyer-final-walkthrough">Buyer Final Walkthrough:</label>
+                    <input type="date" id="buyer-final-walkthrough" name="buyer_final_walkthrough">
+                    <label for="agreed-upon-repairs">Agreed Upon Repairs:</label>
+                    <input type="date" id="agreed-upon-repairs" name="agreed_upon_repairs">
+                    <label for="closing-date">Closing Date:</label>
+                    <input type="date" id="closing-date" name="closing_date">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save">Save</button>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
+
+
+
+
 
 
 
