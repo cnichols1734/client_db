@@ -67,6 +67,7 @@
         }
 
 
+
     </style>
     <script>
     $(document).ready(function () {
@@ -100,6 +101,7 @@
             });
         });
     });
+
 
 
     </script>
@@ -140,18 +142,14 @@
         <tr>
             <td>{{ property.id }}</td>
             <td>{{ property.street_address }}</td>
-            <td>{{ property.option_period_expires.strftime('%Y-%m-%d') if property.option_period_expires else '' }}</td>
+            <td>{{ property.option_period_expires|date if property.option_period_expires else '' }}</td>
             <td>{{ property.survey_provided_by }}</td>
-            <td>{{ property.survey_due_date.strftime('%Y-%m-%d') if property.survey_due_date else '' }}</td>
-            <td>{{ property.buyer_financing_deadline.strftime('%Y-%m-%d') if property.buyer_financing_deadline else ''
-                }}
-            </td>
-            <td>{{ property.appraisal.strftime('%Y-%m-%d') if property.appraisal else '' }}</td>
-            <td>{{ property.buyer_final_walkthrough.strftime('%Y-%m-%d') if property.buyer_final_walkthrough else ''
-                }}
-            </td>
-            <td>{{ property.agreed_upon_repairs.strftime('%Y-%m-%d') if property.agreed_upon_repairs else '' }}</td>
-            <td>{{ property.closing_date.strftime('%Y-%m-%d') if property.closing_date else '' }}</td>
+            <td>{{ property.survey_due_date|date if property.survey_due_date else '' }}</td>
+            <td>{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else '' }}</td>
+            <td>{{ property.appraisal|date if property.appraisal else '' }}</td>
+            <td>{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else '' }}</td>
+            <td>{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else '' }}</td>
+            <td>{{ property.closing_date|date if property.closing_date else '' }}</td>
             <td>
                 <button type="button" class="btn btn-primary update-property" data-id="{{ property.id }}">Update
                     Property
