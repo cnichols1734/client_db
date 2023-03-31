@@ -1,4 +1,6 @@
 from datetime import datetime
+import string
+import secrets
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -21,6 +23,15 @@ def parse_date(date_str, format=DATE_FORMAT):
     return datetime.strptime(date_str, format).date() if date_str else None
 
 
+def generate_unique_uuid(length=6):
+    alphabet = string.ascii_letters + string.digits
+    while True:
+        new_uuid = ''.join(secrets.choice(alphabet) for _ in range(length))
+        if Property.query.filter_by(uuid=new_uuid).count() == 0:
+            break
+    return new_uuid
+
+
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_name = db.Column(db.String(100), nullable=False)
@@ -34,6 +45,7 @@ class Client(db.Model):
 class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
+    uuid = db.Column(db.String(6), nullable=False, unique=True, default=generate_unique_uuid)
     street_address = db.Column(db.String(100), nullable=False)
     option_period_expires = db.Column(db.Date, nullable=True)
     survey_provided_by = db.Column(db.String(50), nullable=True)
@@ -53,6 +65,12 @@ def index():
     return render_template('index.html', clients=clients)
 
 
+@app.route('/client/<int:client_id>')
+def client_property(client_id):
+    client = Client.query.get_or_404(client_id)
+    return render_template('client_property.html', client=client)
+
+
 @app.route('/add', methods=['POST'])
 def add_client():
     client = Client(client_name=request.form['client_name'])
@@ -69,10 +87,11 @@ def update_client(id):
     return redirect(url_for('index'))
 
 
-@app.route('/client/<int:id>')
-def client(id):
-    client = Client.query.get_or_404(id)
-    return render_template('client_property.html', client=client)
+@app.route('/client/<uuid>')
+def client(uuid):
+    property = Property.query.filter_by(uuid=uuid).first_or_404()
+    client = property.client
+    return render_template('client.html', client=client)
 
 
 @app.route('/add_property/<int:client_id>', methods=['POST'])
@@ -95,6 +114,7 @@ def add_property(client_id):
     return redirect(url_for('index'))
 
 
+
 @app.route('/update_property/<int:id>', methods=['GET', 'POST'])
 def update_property(id):
     property = Property.query.get_or_404(id)
@@ -111,7 +131,7 @@ def update_property(id):
         property.closing_date = parse_date(request.form['closing_date'])
 
         db.session.commit()
-        return redirect(url_for('client', id=property.client_id))
+        return redirect(url_for('client', uuid=property.uuid))
 
     return jsonify(
         id=property.id,
@@ -141,7 +161,7 @@ def delete_property(id):
     client_id = property.client_id
     db.session.delete(property)
     db.session.commit()
-    return redirect(url_for('client', id=client_id))
+    return redirect(url_for('client', uuid=property.uuid))
 
 
 @app.route('/clients/property_count')
@@ -161,5 +181,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
 
 

@@ -141,6 +141,15 @@ body.dark-theme {
             background-color: #2d2d2d;
         }
 
+.property-link {
+        display: inline-block;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: #4b7bec;
+    }
+    .dark-theme .property-link {
+        color: #89c4ff;
+    }
 
 
     </style>
@@ -240,6 +249,14 @@ body.dark-theme {
         </tr>
         {% endif %}
     </table>
+    {% if client.properties %}
+    {% for property in client.properties|sort(attribute='id') %}
+        <a class="property-link" href="{{ url_for('client', uuid=property.uuid) }}" target="_blank">
+            View {{ property.street_address }} - {{ property.uuid }}
+        </a>
+        <br>
+    {% endfor %}
+{% endif %}
 </div>
 <!-- Update Property Modal -->
 <div id="update-property-modal" class="modal fade" tabindex="-1" role="dialog">

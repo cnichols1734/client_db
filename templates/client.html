@@ -7,22 +7,25 @@
     <title>{{ client.client_name }} - Client Information</title>
     <style>
         body {
-            font-family: Verdana, sans-serif;
+            font-family: Calibri, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #3ddad7;
+            background-color: #f5f5f5;
         }
+
         .container {
             max-width: 1200px;
             width: 90%;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         h1 {
-            text-align: center;
-            margin-bottom: 20px;
+            text-align: left;
+            margin-bottom: 40px;
+            color: Black;
         }
         table {
             width: 100%;
@@ -35,38 +38,79 @@
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #4b7bec;
             font-weight: bold;
+            color: #fff;
         }
         tr:nth-child(even) {
             background-color: #f5f5f5;
         }
-
     </style>
 </head>
 <body>
 <div class="container">
     <h1>{{ client.client_name }} - Client Information</h1>
+    {% for property in client.properties %}
     <table>
         <tr>
-            <th>Client ID</th>
-            <th>Client Name</th>
-            <th>Client Phone Number</th>
-            <th>Client Start Date</th>
-            <th>Client End Date</th>
-            <th>Client Inspection Date</th>
-            <th>Client Closing Date</th>
+            <th>Street Address</th>
         </tr>
         <tr>
-            <td>{{ client.id }}</td>
-            <td>{{ client.client_name }}</td>
-            <td>{{ client.client_phone_number }}</td>
-            <td>{{ client.client_start_date.strftime('%Y-%m-%d') }}</td>
-            <td>{{ client.client_end_date.strftime('%Y-%m-%d') if client.client_end_date else '' }}</td>
-            <td>{{ client.client_inspection_date.strftime('%Y-%m-%d') if client.client_inspection_date else '' }}</td>
-            <td>{{ client.client_closing_date.strftime('%Y-%m-%d') if client.client_closing_date else '' }}</td>
+            <td>{{ property.street_address }}</td>
+        </tr>
+        <tr>
+            <th>Option Period Expires</th>
+        </tr>
+        <tr>
+            <td>{{ property.option_period_expires }}</td>
+        </tr>
+        <tr>
+            <th>Survey Provided By</th>
+        </tr>
+        <tr>
+            <td>{{ property.survey_provided_by }}</td>
+        </tr>
+        <tr>
+            <th>Survey Due Date</th>
+        </tr>
+        <tr>
+            <td>{{ property.survey_due_date }}</td>
+        </tr>
+        <tr>
+            <th>Buyer Financing Deadline</th>
+        </tr>
+        <tr>
+            <td>{{ property.buyer_financing_deadline }}</td>
+        </tr>
+        <tr>
+            <th>Appraisal</th>
+        </tr>
+        <tr>
+            <td>{{ property.appraisal }}</td>
+        </tr>
+        <tr>
+            <th>Buyer Final Walkthrough</th>
+        </tr>
+        <tr>
+            <td>{{ property.buyer_final_walkthrough }}</td>
+        </tr>
+        <tr>
+            <th>Agreed Upon Repairs</th>
+        </tr>
+        <tr>
+            <td>{{ property.agreed_upon_repairs }}</td>
+        </tr>
+        <tr>
+            <th>Closing Date</th>
+        </tr>
+        <tr>
+            <td>{{ property.closing_date }}</td>
         </tr>
     </table>
+    {% endfor %}
 </div>
 </body>
 </html>
+
+
+
