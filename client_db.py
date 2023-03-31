@@ -4,12 +4,48 @@ import secrets
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from datetime import timedelta
 
 app = Flask(__name__)
+app.secret_key = '17341734'
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clients.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 db = SQLAlchemy(app)
+
+# Initialize the LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Create the User class
+class User(UserMixin):
+    id = 1
+    username = "admin"
+    password = "Cassiechris177!"
+
+# User loading and validation functions
+@login_manager.user_loader
+def load_user(user_id):  # Add the user_id argument
+    if int(user_id) == User.id:
+        return User()
+    return None
+
+def validate_user(username, password):
+    return username == User.username and password == User.password
+
+# Login route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if validate_user(username, password):
+            user = User()
+            login_user(user, remember=True)
+            return redirect(url_for('index'))
+    return render_template('login.html')
 
 DATE_FORMAT = '%Y-%m-%d'
 
@@ -57,18 +93,6 @@ class Property(db.Model):
     closing_date = db.Column(db.Date, nullable=True)
 
     client_property = db.relationship('Client', backref=db.backref('properties', lazy=True))
-
-
-@app.route('/')
-def index():
-    clients = Client.query.all()
-    return render_template('index.html', clients=clients)
-
-
-@app.route('/client/<int:client_id>')
-def client_property(client_id):
-    client = Client.query.get_or_404(client_id)
-    return render_template('client_property.html', client=client)
 
 
 @app.route('/add', methods=['POST'])
@@ -172,12 +196,30 @@ def get_property_counts():
         client_property_counts[client.id] = len(client.properties)
     return jsonify(client_property_counts)
 
+@app.route('/')
+@login_required
+def index():
+    clients = Client.query.all()
+    return render_template('index.html', clients=clients)
+
+@app.route('/client/<int:client_id>')
+@login_required
+def client_property(client_id):
+    client = Client.query.get_or_404(client_id)
+    return render_template('client_property.html', client=client)
+
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 
 def main():
     with app.app_context():
         db.create_all()
+    login_manager.login_view = 'login'
     app.run(debug=True)
-
 
 if __name__ == '__main__':
     main()

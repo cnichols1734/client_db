@@ -191,9 +191,39 @@ body.dark-theme {
             background-color: #2d2d2d;
         }
 
+        .logout-button-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 14px;
+}
+
+.logout-button {
+    background-color: #C8C8C8;
+    color: #fff;
+    border: none;
+    padding: 2px 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    font-size: 10px;
+    width: 60px; /* Add your desired width here */
+}
+
+.logout-button:hover {
+    background-color: #0056b3;
+}
+
+
     </style>
 </head>
 <body>
+<!-- Logout button -->
+<div class="logout-button-container">
+    <form action="{{ url_for('logout') }}" method="POST">
+        <input class="logout-button" type="submit" value="Logout">
+    </form>
+</div>
 <!-- Theme toggle button -->
 <div class="theme-toggle" id="themeToggle">&#9788;</div>
 <div class="container">
@@ -305,6 +335,7 @@ body.dark-theme {
     };
 
 
+
 </script>
 <script>
         // Theme toggle button
@@ -315,6 +346,7 @@ body.dark-theme {
             isDarkTheme = !isDarkTheme;
             document.body.classList.toggle("dark-theme", isDarkTheme);
         };
+
 
 </script>
 </body>
