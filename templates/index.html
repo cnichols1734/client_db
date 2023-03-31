@@ -101,104 +101,57 @@
             text-decoration: none;
             cursor: pointer;
         }
-        button[type="submit"] {
+        button[type="submit"],
+.add-property-btn {
     background-color: #4b7bec;
     color: #fff;
     border: none;
-    padding: 8px 16px;
+    padding: 5px 11px; /* Adjust the padding here */
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 15px;
+    margin-top: 5px; /* Adjust the margin-top here */
     margin-left: 10px;
+    font-size: 13px; /* Add font size for consistency */
+    line-height: 1; /* Add line-height for better vertical alignment */
+     border-radius: 25px;
 }
 
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-/* Dark theme styles */
-body.dark-theme {
-    background-color: #1c1c1c;
-}
-
-.dark-theme .container {
-    background-color: #2d2d2d;
-    color: #e0e0e0;
-}
-
-.dark-theme h1 {
-    color: #e0e0e0;
-}
-
-.dark-theme label {
-    color: #e0e0e0;
-}
-
-.dark-theme input {
-    background-color: #3c3c3c;
-    color: #e0e0e0;
-    border: 1px solid #565656;
-}
-
-.dark-theme table {
-    color: #e0e0e0;
-}
-
-.dark-theme th {
-    background-color: #4a4a4a;
-    color: #e0e0e0;
-}
-
-.dark-theme tr:nth-child(even) {
-    background-color: #323232;
-}
-
-.dark-theme .modal-content {
-    background-color: #2d2d2d;
-    color: #e0e0e0;
-}
-
-.dark-theme .close {
-    color: #e0e0e0;
-}
-
-.dark-theme .close:hover,
-.dark-theme .close:focus {
-    color: #ffffff;
-}
-
-.dark-theme button[type="submit"] {
-    background-color: #4a4a4a;
-    color: #e0e0e0;
-}
-
-.dark-theme button[type="submit"]:hover {
-    background-color: #707070;
-}
-.theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            background-color: #f5f5f5;
-            padding: 5px;
-            border-radius: 50%;
-            transition: background-color 0.3s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-theme .theme-toggle {
-            background-color: #2d2d2d;
-        }
+button[type="submit"]:hover,
+    .add-property-btn:hover {
+        background-color: #0056b3;
+    }
 
         .logout-button-container {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 14px;
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 14px;
+    }
+
+    .logout-btn {
+        background-color: #C8C8C8;
+        color: #fff;
+        border: none;
+        padding: 2px 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 5px;
+        font-size: 10px;
+        width: 60px;
+    }
+
+    .logout-btn:hover {
+        background-color: #0056b3;
+    }
+.dark-toggle-btn {
+    background-color: inherit;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logout-button {
+.logout-btn {
     background-color: #C8C8C8;
     color: #fff;
     border: none;
@@ -210,7 +163,7 @@ body.dark-theme {
     width: 60px; /* Add your desired width here */
 }
 
-.logout-button:hover {
+.logout-btn:hover {
     background-color: #0056b3;
 }
 
@@ -221,13 +174,11 @@ body.dark-theme {
 <!-- Logout button -->
 <div class="logout-button-container">
     <form action="{{ url_for('logout') }}" method="POST">
-        <input class="logout-button" type="submit" value="Logout">
-    </form>
+    <input class="logout-btn" type="submit" value="Logout">
+</form>
 </div>
-<!-- Theme toggle button -->
-<div class="theme-toggle" id="themeToggle">&#9788;</div>
 <div class="container">
-    <h1>Origen Realty Client Management</h1>
+    <h1>Origen Realty CMS</h1>
     <form action="/add" method="post">
         <div class="input-container">
             <label for="client_name">Client Name</label>
@@ -246,7 +197,8 @@ body.dark-theme {
             <td><a href="/client/{{ client.id }}">{{ client.id }}</a></td>
             <td>{{ client.client_name }}</td>
             <td>
-                <button id="addPropertyBtn-{{ client.id }}" onclick="openAddPropertyModal({{ client.id }})">Add
+                <button class="add-property-btn" id="addPropertyBtn-{{ client.id }}"
+                        onclick="openAddPropertyModal({{ client.id }})">Add
                     Property
                 </button>
             </td>
@@ -335,17 +287,6 @@ body.dark-theme {
     };
 
 
-
-</script>
-<script>
-        // Theme toggle button
-        var themeToggle = document.getElementById("themeToggle");
-        var isDarkTheme = false;
-
-        themeToggle.onclick = function() {
-            isDarkTheme = !isDarkTheme;
-            document.body.classList.toggle("dark-theme", isDarkTheme);
-        };
 
 
 </script>
