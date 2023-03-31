@@ -49,68 +49,51 @@
 </head>
 <body>
 <div class="container">
-    <h1>{{ client.client_name }} - Client Information</h1>
+    <h1>{{ client.client_name }}</h1>
     {% for property in client.properties %}
     <table>
         <tr>
             <th>Street Address</th>
-        </tr>
-        <tr>
-            <td>{{ property.street_address }}</td>
-        </tr>
-        <tr>
+            <th>Appraisal Date</th>
             <th>Option Period Expires</th>
-        </tr>
-        <tr>
-            <td>{{ property.option_period_expires }}</td>
-        </tr>
-        <tr>
             <th>Survey Provided By</th>
-        </tr>
-        <tr>
-            <td>{{ property.survey_provided_by }}</td>
-        </tr>
-        <tr>
             <th>Survey Due Date</th>
         </tr>
         <tr>
-            <td>{{ property.survey_due_date }}</td>
+            <td>{{ property.street_address }}</td>
+            <td>{{ property.appraisal|date if property.appraisal else '' }}</td>
+            <td>{{ property.option_period_expires|date if property.option_period_expires else ''  }}</td>
+            <td>{{ property.survey_provided_by }}</td>
+            <td>{{ property.survey_due_date|date if property.survey_due_date else '' }}</td>
         </tr>
+    </table>
+    <table>
         <tr>
             <th>Buyer Financing Deadline</th>
-        </tr>
-        <tr>
-            <td>{{ property.buyer_financing_deadline }}</td>
-        </tr>
-        <tr>
-            <th>Appraisal</th>
-        </tr>
-        <tr>
-            <td>{{ property.appraisal }}</td>
-        </tr>
-        <tr>
             <th>Buyer Final Walkthrough</th>
-        </tr>
-        <tr>
-            <td>{{ property.buyer_final_walkthrough }}</td>
-        </tr>
-        <tr>
             <th>Agreed Upon Repairs</th>
-        </tr>
-        <tr>
-            <td>{{ property.agreed_upon_repairs }}</td>
-        </tr>
-        <tr>
             <th>Closing Date</th>
         </tr>
         <tr>
-            <td>{{ property.closing_date }}</td>
-        </tr>
-    </table>
-    {% endfor %}
+            <td>{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else '' }}</td>
+            <td>{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else '' }}</td>
+            <td>{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else '' }}</td>
+            <td>{{ property.closing_date|date if property.closing_date else '' }}</td>
+</tr>
+</table>
+{% endfor %}
+
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
