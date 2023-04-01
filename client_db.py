@@ -225,7 +225,7 @@ def public_home():
     return render_template('public_home.html')
 
 
-# ... (rest of the code)
+
 
 def main():
     login_manager.login_view = 'login'
