@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Home</title>
+    <style>
+        body {
+            font-family: Calibri, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            padding-top: 25vh;
+        }
+
+        .welcome-container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: Black;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a.button {
+            background-color: #4b7bec;
+            color: #fff;
+            border: none;
+            padding: 8px 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            margin: 10px auto;
+        }
+
+        a.button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="welcome-container">
+    <h1>Welcome to Origen Realty CMS</h1>
+    <p>Please press here to login.</p>
+    <a href="{{ url_for('login') }}" class="button">Login</a>
+</div>
+</body>
+</html>

@@ -4,7 +4,7 @@ import secrets
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from datetime import timedelta
 
 app = Flask(__name__)
@@ -14,6 +14,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clients.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 db = SQLAlchemy(app)
+
+with app.app_context():
+    db.create_all()
 
 # Initialize the LoginManager
 login_manager = LoginManager()
@@ -196,11 +199,14 @@ def get_property_counts():
         client_property_counts[client.id] = len(client.properties)
     return jsonify(client_property_counts)
 
+
 @app.route('/')
-@login_required
 def index():
+    if not current_user.is_authenticated:
+        return redirect(url_for('public_home'))
     clients = Client.query.all()
     return render_template('index.html', clients=clients)
+
 
 @app.route('/client/<int:client_id>')
 @login_required
@@ -214,15 +220,20 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+@app.route('/public')
+def public_home():
+    return render_template('public_home.html')
+
+
+# ... (rest of the code)
 
 def main():
-    with app.app_context():
-        db.create_all()
     login_manager.login_view = 'login'
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5001)
 
 if __name__ == '__main__':
     main()
+
 
 
 

@@ -45,6 +45,24 @@
         tr:nth-child(even) {
             background-color: #f5f5f5;
         }
+
+        /* Add this media query */
+        @media (max-width: 700px) {
+    .container {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+    table, th, td {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 3px;
+    }
+}
+
+        }
+
     </style>
 </head>
 <body>
@@ -62,7 +80,7 @@
         <tr>
             <td>{{ property.street_address }}</td>
             <td>{{ property.appraisal|date if property.appraisal else '' }}</td>
-            <td>{{ property.option_period_expires|date if property.option_period_expires else ''  }}</td>
+            <td>{{ property.option_period_expires|date if property.option_period_expires else '' }}</td>
             <td>{{ property.survey_provided_by }}</td>
             <td>{{ property.survey_due_date|date if property.survey_due_date else '' }}</td>
         </tr>
@@ -79,13 +97,13 @@
             <td>{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else '' }}</td>
             <td>{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else '' }}</td>
             <td>{{ property.closing_date|date if property.closing_date else '' }}</td>
-</tr>
-</table>
-{% endfor %}
-
+        </tr>
+    </table>
+    {% endfor %}
 </div>
 </body>
 </html>
+
 
 
 
