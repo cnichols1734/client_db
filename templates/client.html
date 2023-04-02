@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,113 +8,154 @@
     <title>{{ client.client_name }} - Client Information</title>
     <style>
         body {
-            font-family: Calibri, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background: linear-gradient(45deg, #3ddad7, #3ddad7cc);
         }
 
         .container {
             max-width: 1200px;
             width: 90%;
-            margin: 20px auto;
+            margin: 40px auto;
             background-color: #fff;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        h1 {
-            text-align: left;
-            margin-bottom: 40px;
-            color: Black;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: left;
-        }
-        th {
-            background-color: #4b7bec;
-            font-weight: bold;
-            color: #fff;
-        }
-        tr:nth-child(even) {
-            background-color: #f5f5f5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
         }
 
-        /* Add this media query */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 36px;
+            padding: 10px;
+            background: linear-gradient(135deg, #3ddad7, #30c5c2);
+            border-radius: 15px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #3ddad7;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            background-color: #f5f5f5;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+
+        .fields {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .field {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .field:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .field-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3ddad7;
+            margin-bottom: 10px;
+        }
+
+        .field-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .field-description {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
         @media (max-width: 700px) {
     .container {
         width: 100%;
         margin: 0;
         border-radius: 0;
     }
-    table, th, td {
-        font-size: 12px;
+    .field-title, .field-description {
+        font-size: 14px;
     }
-    th, td {
-        padding: 3px;
+    .fields {
+        flex-direction: column;
+    }
+    .field {
+        margin-bottom: 0;
     }
 }
 
-        }
-
     </style>
 </head>
+
 <body>
-<div class="container">
-    <h1>{{ client.client_name }}</h1>
-    {% for property in client.properties %}
-    {% if property.uuid == desired_property_uuid %}
-    <table>
-        <tr>
-            <th>Street Address</th>
-            <th>Appraisal Date</th>
-            <th>Option Period Expires</th>
-            <th>Survey Provided By</th>
-            <th>Survey Due Date</th>
-        </tr>
-        <tr>
-            <td>{{ property.street_address }}</td>
-            <td>{{ property.appraisal|date if property.appraisal else '' }}</td>
-            <td>{{ property.option_period_expires|date if property.option_period_expires else '' }}</td>
-            <td>{{ property.survey_provided_by }}</td>
-            <td>{{ property.survey_due_date|date if property.survey_due_date else '' }}</td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th>Buyer Financing Deadline</th>
-            <th>Buyer Final Walkthrough</th>
-            <th>Agreed Upon Repairs</th>
-            <th>Closing Date</th>
-        </tr>
-        <tr>
-            <td>{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else '' }}</td>
-            <td>{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else '' }}</td>
-            <td>{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else '' }}</td>
-            <td>{{ property.closing_date|date if property.closing_date else '' }}</td>
-        </tr>
-    </table>
-    {% endif %}
-{% endfor %}
-</div>
+    <div class="container">
+        <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
+            <h2>Property: {{ property.street_address }}</h2>
+            <div class="fields">
+                <div class="field">
+                    <div class="field-title">Appraisal Date:</div>
+                    <div class="field-value">{{ property.appraisal|date if property.appraisal else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+                <div class="field">
+                    <div class="field-title">Option Period Expires:</div>
+                    <div class="field-value">{{ property.option_period_expires|date if property.option_period_expires else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+                <div class="field">
+                    <div class="field-title">Survey Provided By & Survey Due Date:</div>
+                    <div class="field-value">{{ property.survey_provided_by }} {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+                <div class="field">
+                    <div class="field-title">Buyer Financing Deadline:</div>
+                    <div class="field-value">{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+                <div class="field">
+                    <div class="field-title">Buyer Final Walkthrough:</div>
+                    <div class="field-value">{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+                <div class="field">
+                    <div class="field-title">Agreed Upon Repairs:</div>
+                    <div class="field-value">{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+                <div class="field">
+                    <div class="field-title">Closing Date:</div>
+                    <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
+                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                </div>
+            </div>
+        </section> {% endif %} {% endfor %}
+    </div>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
