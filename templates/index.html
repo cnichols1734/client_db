@@ -166,6 +166,18 @@ button[type="submit"]:hover,
 .logout-btn:hover {
     background-color: #0056b3;
 }
+table {
+            table-layout: fixed; /* Add this property to set a fixed table layout */
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 60%; /* Adjust the width of the Client Name column */
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 20%; /* Adjust the width of the Add Property column */
+            white-space: nowrap; /* Prevent wrapping of content inside the cell */
+        }
 
 
     </style>

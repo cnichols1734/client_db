@@ -189,7 +189,6 @@ def delete_client_and_property(id):
     return redirect(url_for('index'))
 
 
-
 @app.route('/clients/property_count')
 def get_property_counts():
     clients = Client.query.all()
@@ -222,8 +221,6 @@ def logout():
 @app.route('/public')
 def public_home():
     return render_template('public_home.html')
-
-
 
 
 def main():
