@@ -1,7 +1,7 @@
 from datetime import datetime
 import string
 import secrets
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -108,8 +108,8 @@ def add_client():
 
 @app.route('/update/<int:id>', methods=['POST'])
 def update_client(id):
-    client = Client.query.get(id)
-    client.client_name = request.form['new_client_name']  # Updated to use 'new_client_name'
+    client = db.session.get(Client, id)
+    client.client_name = request.form['new_client_name']
     db.session.commit()
     return redirect(url_for('index'))
 
@@ -123,7 +123,9 @@ def client(uuid):
 
 @app.route('/add_property/<int:client_id>', methods=['POST'])
 def add_property(client_id):
-    client = Client.query.get_or_404(client_id)
+    client = db.session.get(Client, client_id)
+    if client is None:
+        abort(404)
     property = Property(
         client_id=client.id,
         street_address=request.form['street_address'],
@@ -144,7 +146,9 @@ def add_property(client_id):
 
 @app.route('/update_property/<int:id>', methods=['GET', 'POST'])
 def update_property(id):
-    property = Property.query.get_or_404(id)
+    property = db.session.get(Property, id)
+    if property is None:
+        abort(404)
 
     if request.method == 'POST':
         property.street_address = request.form['street_address']
@@ -174,6 +178,7 @@ def update_property(id):
     )
 
 
+
 @app.route('/delete_client_and_property/<int:id>', methods=['POST'])
 def delete_client_and_property(id):
     # First, delete the associated property if it exists
@@ -182,11 +187,14 @@ def delete_client_and_property(id):
         db.session.delete(property)
 
     # Then, delete the client
-    client = Client.query.get_or_404(id)
+    client = db.session.get(Client, id)
+    if client is None:
+        abort(404)
     db.session.delete(client)
     db.session.commit()
 
     return redirect(url_for('index'))
+
 
 
 @app.route('/clients/property_count')
@@ -209,8 +217,11 @@ def index():
 @app.route('/client/<int:client_id>')
 @login_required
 def client_property(client_id):
-    client = Client.query.get_or_404(client_id)
+    client = db.session.get(Client, client_id)
+    if client is None:
+        abort(404)
     return render_template('client_property.html', client=client)
+
 
 @app.route('/logout', methods=['POST'])
 @login_required
