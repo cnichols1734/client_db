@@ -11,7 +11,7 @@
             font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(45deg, #3ddad7, #3ddad7cc);
+            background: linear-gradient(45deg, #E0E0E0, #F5F5F5);
         }
 
         .container {
@@ -28,10 +28,25 @@
             text-align: center;
             margin-bottom: 30px;
             color: #fff;
-            font-size: 36px;
+            font-size: 38px;
             padding: 10px;
             background: linear-gradient(135deg, #3ddad7, #30c5c2);
             border-radius: 15px;
+            font-family: 'Work Sans', serif;
+            letter-spacing: .5px;
+            animation: fall-in 1s ease-out forwards;
+        }
+
+        @keyframes fall-in {
+        0% {
+        transform: translateY(-100%);
+        }
+        70% {
+        transform: translateY(10px);
+        }
+        100% {
+        transform: translateY(0);
+        }
         }
 
         h2 {
@@ -48,7 +63,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: 0.3s;
         }
-
 
         .fields {
             display: flex;
@@ -77,6 +91,7 @@
             font-weight: bold;
             color: #3ddad7;
             margin-bottom: 10px;
+            animation: fade-in 1s ease-out forwards;
         }
 
         .field-value {
@@ -84,32 +99,16 @@
             font-weight: bold;
             color: #333;
             margin-bottom: 10px;
+            animation: fade-in 1s ease-out forwards;
         }
-
-        .field-description {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 400;
+        @keyframes fade-in {
+        0% {
+        opacity: 0;
         }
-
-        @media (max-width: 700px) {
-    .container {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-    }
-    .field-title, .field-description {
-        font-size: 14px;
-    }
-    .fields {
-        flex-direction: column;
-    }
-    .field {
-        margin-bottom: 0;
-    }
-}
-
+        100% {
+        opacity: 1;
+        }
+        }
     </style>
 </head>
 
