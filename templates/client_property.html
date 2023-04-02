@@ -250,9 +250,9 @@ body.dark-theme {
         {% endif %}
     </table>
     {% if client.properties %}
-    {% for property in client.properties|sort(attribute='id') %}
-        <a class="property-link" href="{{ url_for('client', uuid=property.uuid) }}" target="_blank">
-            View {{ property.street_address }} - {{ property.uuid }}
+{% for property in client.properties|sort(attribute='id') %}
+    <a class="property-link" href="{{ url_for('client', uuid=property.uuid) }}" target="_blank">
+        View {{ property.street_address }} - {{ property.uuid }}
         </a>
         <br>
     {% endfor %}

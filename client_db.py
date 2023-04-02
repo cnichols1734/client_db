@@ -118,7 +118,8 @@ def update_client(id):
 def client(uuid):
     property = Property.query.filter_by(uuid=uuid).first_or_404()
     client = property.client
-    return render_template('client.html', client=client)
+    return render_template('client.html', client=client, desired_property_uuid=uuid)
+
 
 
 @app.route('/add_property/<int:client_id>', methods=['POST'])

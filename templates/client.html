@@ -69,6 +69,7 @@
 <div class="container">
     <h1>{{ client.client_name }}</h1>
     {% for property in client.properties %}
+    {% if property.uuid == desired_property_uuid %}
     <table>
         <tr>
             <th>Street Address</th>
@@ -99,7 +100,8 @@
             <td>{{ property.closing_date|date if property.closing_date else '' }}</td>
         </tr>
     </table>
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 </div>
 </body>
 </html>
