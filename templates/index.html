@@ -79,13 +79,21 @@
 
         /* Modal Content/Box */
         .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-            border-radius: 10px;
-        }
+        background-color: #fefefe;
+        margin: 15% auto; /* Add this line to center the modal vertically */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* Change this to modify the width of the modal */
+        max-width: 300px; /* Add this line to limit the maximum width */
+    }
+
+    /* Add or update this style to ensure the buttons are horizontally aligned */
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
 
         /* The Close Button */
         .close {
@@ -178,11 +186,29 @@ table {
             width: 20%; /* Adjust the width of the Add Property column */
             white-space: nowrap; /* Prevent wrapping of content inside the cell */
         }
+         /* Add a new style for the Edit button */
+        .edit-client-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+            margin-left: 10px;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
 
+        .edit-client-btn:hover {
+            background-color: #218838;
+        }
 
     </style>
 </head>
 <body>
+
 <!-- Logout button -->
 <div class="logout-button-container">
     <form action="{{ url_for('logout') }}" method="POST">
@@ -213,6 +239,7 @@ table {
                         onclick="openAddPropertyModal({{ client.id }})">Add
                     Property
                 </button>
+                <button class="edit-client-btn" id="editClientBtn-{{ client.id }}" onclick="openEditClientModal({{ client.id }}, '{{ client.client_name }}')">Edit</button>
                 <form action="{{ url_for('delete_client_and_property', id=client.id) }}" method="post" style="display:inline;">
                   <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this client and their property?');" style="background-color: #e74c3c; border: none; border-radius: 5px; color: white; cursor: pointer; margin-left: 5px; padding: 5px 11px; transition: background-color 0.3s;">
                 </form>
@@ -220,6 +247,22 @@ table {
         </tr>
         {% endfor %}
     </table>
+</div>
+<div id="editClientModal" class="modal">
+    <div class="modal-content">
+        <span class="close-edit-client">&times;</span>
+        <h2>Edit Client Name</h2>
+        <form id="editClientForm" action="" method="post">
+            <div>
+                <label for="new_client_name">New Client Name</label>
+                <input type="text" name="new_client_name" id="new_client_name" placeholder="New Client Name" required>
+            </div>
+            <div>
+                <button type="submit">Save</button>
+                <button type="button" class="cancel-edit-client">Cancel</button>
+            </div>
+        </form>
+    </div>
 </div>
 <!-- The Add Property Modal -->
 <div id="addPropertyModal" class="modal">
@@ -301,9 +344,42 @@ table {
         }
     };
 
+    // Get the edit client modal
+    var editClientModal = document.getElementById("editClientModal");
 
+    // Get the <span> element that closes the edit client modal
+    var closeEditClient = document.getElementsByClassName("close-edit-client")[0];
 
+    // Get the cancel button element in the edit client modal
+    var cancelEditClient = document.getElementsByClassName("cancel-edit-client")[0];
 
+    // Function to open the edit client modal
+    // Update the function to accept the clientName parameter
+    function openEditClientModal(clientId, clientName) {
+        editClientModal.style.display = "block";
+        document.getElementById("editClientForm").action = "/update/" + clientId;
+
+        // Add this line to set the value of the new_client_name input field
+        // to the current client name
+        document.getElementById("new_client_name").value = clientName;
+    }
+
+    // When the user clicks on <span> (x), close the edit client modal
+    closeEditClient.onclick = function () {
+        editClientModal.style.display = "none";
+    };
+
+    // When the user clicks on the cancel button, close the edit client modal
+    cancelEditClient.onclick = function () {
+        editClientModal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the edit client modal, close it
+    window.onclick = function (event) {
+        if (event.target == editClientModal) {
+            editClientModal.style.display = "none";
+        }
+    };
 </script>
 </body>
 </html>

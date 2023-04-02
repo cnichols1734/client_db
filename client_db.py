@@ -109,7 +109,7 @@ def add_client():
 @app.route('/update/<int:id>', methods=['POST'])
 def update_client(id):
     client = Client.query.get(id)
-    client.client_name = request.form['client_name']
+    client.client_name = request.form['new_client_name']  # Updated to use 'new_client_name'
     db.session.commit()
     return redirect(url_for('index'))
 
