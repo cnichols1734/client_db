@@ -174,21 +174,20 @@ def update_property(id):
     )
 
 
-@app.route('/delete_client/<int:id>', methods=['POST'])
-def delete_client(id):
+@app.route('/delete_client_and_property/<int:id>', methods=['POST'])
+def delete_client_and_property(id):
+    # First, delete the associated property if it exists
+    property = Property.query.filter_by(client_id=id).first()
+    if property:
+        db.session.delete(property)
+
+    # Then, delete the client
     client = Client.query.get_or_404(id)
     db.session.delete(client)
     db.session.commit()
+
     return redirect(url_for('index'))
 
-
-@app.route('/delete_property/<int:id>', methods=['POST'])
-def delete_property(id):
-    property = Property.query.get_or_404(id)
-    client_id = property.client_id
-    db.session.delete(property)
-    db.session.commit()
-    return redirect(url_for('client', uuid=property.uuid))
 
 
 @app.route('/clients/property_count')
