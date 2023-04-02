@@ -215,8 +215,17 @@ table {
   transition: background-color 0.3s;
 }
 
+@keyframes warningBackground {
+    5% { background-color: #e74c3c; }
+    20% { background-color: #f1c40f; }
+    40% { background-color: #e74c3c; }
+    60% { background-color: #f1c40f; }
+    80% { background-color: #e74c3c; }
+    100% { background-color: #f1c40f; }
+}
+
 .delete-button:hover {
-  background-color: #ff4d4d;
+    animation: warningBackground 1.5s infinite;
 }
 
 
