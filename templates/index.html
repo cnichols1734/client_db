@@ -243,6 +243,15 @@
         .view-property-btn:hover {
             background-color: #279a97;
         }
+        .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-actions > form {
+        margin-right: 16px;
+    }
 
     </style>
 </head>
@@ -254,16 +263,22 @@
     </div>
     <div class="container">
         <h1>Origen Realty CMS</h1>
-        <form action="/add" method="post">
-            <div class="input-container"> <label for="client_name">Client Name</label> <input type="text" name="client_name" id="client_name" placeholder="Client Name" required> <button type="submit">Add Client</button> </div>
-        </form>
-        <table>
+        <div class="header-actions">
+            <form action="/add" method="post">
+                <div class="input-container"> <label for="client_name">Client Name</label> <input type="text" name="client_name" id="client_name" placeholder="Client Name" required> <button type="submit">Add Client</button> </div>
+            </form>
+            <div>
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" placeholder="Type to search..." onkeyup="filterTable()">
+            </div>
+        </div>
+         <table id="clientTable">
             <tr>
-                <th>View Property</th>
+                <th>View Details</th>
                 <th>Client Name</th>
                 <th>Add Property</th>
             </tr> {% for client in clients %} <tr>
-                <td> <button class="view-property-btn" onclick="window.location.href='/client/{{ client.id }}'"> View Property </button> </td>
+                <td> <button class="view-property-btn" onclick="window.location.href='/client/{{ client.id }}'"> View Details </button> </td>
                 <td>{{ client.client_name }}</td>
                 <td> <button class="add-property-btn" id="addPropertyBtn-{{ client.id }}" onclick="openAddPropertyModal({{ client.id }})">Add Property </button> <button class="edit-client-btn" id="editClientBtn-{{ client.id }}" onclick="openEditClientModal({{ client.id }}, '{{ client.client_name }}')">Edit</button>
                     <form action="{{ url_for('delete_client_and_property', id=client.id) }}" method="post" style="display:inline;"> <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this client and their property? This cannot be undone.');" class="delete-button"> </form>
@@ -365,7 +380,31 @@
                 editClientModal.style.display = "none";
             }
         };
-    </script>
+
+    // Function to filter the table rows based on the input value
+    function filterTable() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchFilter");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("clientTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    // Add an event listener to the filter input element to trigger the filter function when the input value changes
+    document.getElementById("searchFilter").addEventListener("keyup", filterTable);
+</script>
 </body>
 
 </html>
