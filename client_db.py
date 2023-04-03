@@ -74,6 +74,7 @@ def generate_unique_uuid(length=6):
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     client_name = db.Column(db.String(100), nullable=False)
+    agent_name = db.Column(db.String(100), nullable=True)  # New field: Agent Name
 
     property_detail = db.relationship('Property', backref='client', uselist=False)
 
@@ -86,6 +87,8 @@ class Property(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
     uuid = db.Column(db.String(6), nullable=False, unique=True, default=generate_unique_uuid)
     street_address = db.Column(db.String(100), nullable=False)
+    property_type = db.Column(db.String(100), nullable=True)  # New field: Property Type
+    notes = db.Column(db.Text, nullable=True)  # New field: Notes
     option_period_expires = db.Column(db.Date, nullable=True)
     survey_provided_by = db.Column(db.String(50), nullable=True)
     survey_due_date = db.Column(db.Date, nullable=True)
@@ -100,7 +103,10 @@ class Property(db.Model):
 
 @app.route('/add', methods=['POST'])
 def add_client():
-    client = Client(client_name=request.form['client_name'])
+    client = Client(
+        client_name=request.form['client_name'],
+        agent_name=request.form['agent_name']  # Add the new Agent Name field
+    )
     db.session.add(client)
     db.session.commit()
     return redirect(url_for('index'))
@@ -110,6 +116,7 @@ def add_client():
 def update_client(id):
     client = db.session.get(Client, id)
     client.client_name = request.form['new_client_name']
+    client.agent_name = request.form['new_agent_name']  # Add the new Agent Name field
     db.session.commit()
     return redirect(url_for('index'))
 
@@ -137,7 +144,9 @@ def add_property(client_id):
         appraisal=parse_date(request.form['appraisal']),
         buyer_final_walkthrough=parse_date(request.form['buyer_final_walkthrough']),
         agreed_upon_repairs=parse_date(request.form['agreed_upon_repairs']),
-        closing_date=parse_date(request.form['closing_date'])
+        closing_date=parse_date(request.form['closing_date']),
+        property_type=request.form['property_type'],  # Add the new Property Type field
+        notes=request.form['notes']  # Add the new Notes field
     )
     db.session.add(property)
     db.session.commit()
@@ -161,6 +170,8 @@ def update_property(id):
         property.buyer_final_walkthrough = parse_date(request.form['buyer_final_walkthrough'])
         property.agreed_upon_repairs = parse_date(request.form['agreed_upon_repairs'])
         property.closing_date = parse_date(request.form['closing_date'])
+        property.property_type = request.form['property_type']
+        property.notes = request.form['notes']
 
         db.session.commit()
         return redirect(url_for('client', uuid=property.uuid))
@@ -175,8 +186,11 @@ def update_property(id):
         appraisal=property.appraisal.strftime(DATE_FORMAT) if property.appraisal else None,
         buyer_final_walkthrough=property.buyer_final_walkthrough.strftime(DATE_FORMAT) if property.buyer_final_walkthrough else None,
         agreed_upon_repairs=property.agreed_upon_repairs.strftime(DATE_FORMAT) if property.agreed_upon_repairs else None,
-        closing_date=property.closing_date.strftime(DATE_FORMAT) if property.closing_date else None
+        closing_date=property.closing_date.strftime(DATE_FORMAT) if property.closing_date else None,
+        property_type=property.property_type,
+        notes=property.notes
     )
+
 
 
 
@@ -238,6 +252,8 @@ def public_home():
 def main():
     login_manager.login_view = 'login'
     app.run(debug=True, host='0.0.0.0', port=5001)
+    with app.app_context():
+        db.create_all()
 
 if __name__ == '__main__':
     main()
