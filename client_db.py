@@ -1,7 +1,7 @@
 from datetime import datetime
 import string
 import secrets
-from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, flash
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -196,19 +196,19 @@ def update_property(id):
 
 @app.route('/delete_client_and_property/<int:id>', methods=['POST'])
 def delete_client_and_property(id):
-    # First, delete the associated property if it exists
-    property = Property.query.filter_by(client_id=id).first()
-    if property:
+    # First, delete all associated properties
+    properties = Property.query.filter_by(client_id=id).all()
+    for property in properties:
         db.session.delete(property)
 
     # Then, delete the client
-    client = db.session.get(Client, id)
-    if client is None:
-        abort(404)
+    client = Client.query.get_or_404(id)
     db.session.delete(client)
     db.session.commit()
 
+    flash('Client and all associated properties have been deleted!', 'success')
     return redirect(url_for('index'))
+
 
 
 

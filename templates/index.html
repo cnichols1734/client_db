@@ -15,7 +15,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             width: 90%;
             margin: 20px auto;
             background-color: #fff;
@@ -24,9 +24,16 @@
             border-radius: 10px;
         }
         h1 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: Black;
+          text-align: center;
+          margin-bottom: 40px;
+          color: white;
+          font-family: Calibri, sans-serif;
+          font-size: 40px;
+          font-weight: bold;
+          background-color: #32c2bf;
+          border-radius: 10px;
+          height: 80px; /* adjust as needed */
+          line-height: 80px; /* match the height to vertically center the text */
         }
         form {
             display: flex;
@@ -54,6 +61,8 @@
             padding: 10px;
             border: 1px solid #ccc;
             text-align: left;
+            height: 25px; /* Add a specific height */
+            overflow: hidden; /* Prevent content from overflowing the cell */
         }
         th {
             background-color: #32c2bf;
@@ -163,13 +172,13 @@
         .logout-btn {
             background-color: #C8C8C8;
             color: #fff;
-            border: none;
-            padding: 2px 4px;
+            border: black;
+            padding: 1px 2px;
             cursor: pointer;
             transition: background-color 0.3s;
-            border-radius: 5px;
-            font-size: 10px;
-            width: 60px; /* Add your desired width here */
+            border-radius: 8px;
+            font-size: 9px;
+            width: 35px; /* Add your desired width here */
         }
 
         .logout-btn:hover {
@@ -196,7 +205,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
             margin-top: 5px;
-            margin-left: 10px;
+            margin-left: 6px;
             font-size: 13px;
             line-height: 1;
             border-radius: 25px;
@@ -256,26 +265,34 @@
             table {
             table-layout: fixed; /* Add this property to set a fixed table layout */
         }
-        th:nth-child(1), td:nth-child(1) {
-            width: 12%; /* Adjust the width of the Client Name column */
-            max-height: 30px;
+                th:nth-child(1), td:nth-child(1) {
+          width: 12%;
+          height: 20px; /* Adjust the height of the row */
         }
 
         th:nth-child(2), td:nth-child(2) {
-            width: 32%; /* Adjust the width of the Client Name column */
-            max-height: 30px;
+          width: 32%;
+          height: 20px; /* Adjust the height of the row */
         }
 
         th:nth-child(3), td:nth-child(3) {
-            width: 32%; /* Adjust the width of the Agent Name column */
-            white-space: nowrap; /* Prevent wrapping of content inside the cell */
-            max-height: 30px;
+          width: 32%;
+          white-space: nowrap;
+          height: 20px; /* Adjust the height of the row */
         }
+
         th:nth-child(4), td:nth-child(4) {
-            width: 24%; /* Adjust the width of the Add Property column */
-            text-align: center; /* Align the content to the center of the cell */
-            max-height: 30px;
+          width: 24%;
+          text-align: center;
+          height: 20px; /* Adjust the height of the row */
         }
+
+        td, th {
+         padding: 0.5rem; /* Change the padding value */
+            margin: 0.5rem; /* Change the margin value */
+        }
+        }
+
         .input-container {
             display: flex;
             flex-direction: row;
@@ -292,7 +309,49 @@
         line-height: 1;
         }
 
+        .agent-name-select {
+            font-family: Calibri, sans-serif;
+            font-size: 12.5px;
+            padding: 6px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 110%;
+            appearance: none;
+            color: #737373;
+        }
 
+        .save-button-modal {
+            background-color: #32c2bf;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
+
+        .save-button-modal:hover {
+            background-color: #279a97;
+        }
+
+        .cancel-button-modal {
+            background-color: #C8C8C8;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
+
+        .cancel-button-modal:hover {
+            background-color: #A5A5A5;
+        }
 
     </style>
 </head>
@@ -307,7 +366,11 @@
         <div class="header-actions">
             <form action="/add" method="post">
                 <div class="form-group"> <label for="client_name">Client Name</label> <input type="text" name="client_name" id="client_name" placeholder="Client Name" required> </div>
-                <div class="form-group"> <label for="agent_name">Agent Name</label> <input type="text" name="agent_name" id="agent_name" placeholder="Agent Name" required> </div>
+                <div class="form-group"> <label for="agent_name">Agent Name</label> <select name="agent_name" id="agent_name" class="agent-name-select" required>
+                        <option value="">Select Agent</option>
+                        <option value="Cassie Nichols">Cassie Nichols</option>
+                        <option value="Traci Crawford">Traci Crawford</option>
+                    </select> </div>
                 <div class="form-group"> <button type="submit" style="display: inline-block;">Add Client</button> </div>
             </form>
             <div> <label for="searchFilter">Search:</label> <input type="text" id="searchFilter" placeholder="Type to search..." onkeyup="filterTable()"> </div>
@@ -334,8 +397,12 @@
             <h2>Edit Client Name</h2>
             <form id="editClientForm" action="" method="post">
                 <div> <label for="new_client_name">New Client Name</label> <input type="text" name="new_client_name" id="new_client_name" placeholder="New Client Name" required> </div>
-                <div> <label for="new_agent_name">New Agent Name</label> <input type="text" name="new_agent_name" id="new_agent_name" placeholder="New Agent Name" required> </div>
-                <div> <button type="submit">Save</button> <button type="button" class="cancel-edit-client">Cancel</button> </div>
+                <div> <label for="new_agent_name">New Agent Name</label> <select name="new_agent_name" id="new_agent_name" class="agent-name-select" required>
+                        <option value="">Select Agent</option>
+                        <option value="Cassie Nichols">Cassie Nichols</option>
+                        <option value="Traci Crawford">Traci Crawford</option>
+                    </select> </div> <!-- Replace the existing div with the new div containing the modal-buttons class -->
+                <div class="modal-buttons"> <button type="submit" class="save-button-modal">Save</button> <button type="button" class="cancel-button-modal" data-bs-dismiss="modal">Cancel</button> </div>
             </form>
         </div>
     </div> <!-- The Add Property Modal -->
@@ -460,13 +527,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
