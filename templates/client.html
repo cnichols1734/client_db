@@ -108,15 +108,29 @@
         100% {
         opacity: 1;
         }
+}
+        .agent-name {
+            font-size: 28px;
+            color: #3ddad7;
+            margin-bottom: 20px;
+            text-align: right;
         }
+        .property-agent-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
-            <h2>Property: {{ property.street_address }}</h2>
-            <div class="fields">
+            <div class="property-agent-container">
+                <h2>Property: {{ property.street_address }}</h2>
+                <h2 class="agent-name">Agent: {{ client.agent_name }}</h2>
+            </div>
+
                 <div class="field">
                     <div class="field-title">Appraisal Date:</div>
                     <div class="field-value">{{ property.appraisal|date if property.appraisal else 'Not Scheduled' }}</div>
@@ -152,7 +166,7 @@
                     <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
                     <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
                 </div>
-            </div>
+
         </section> {% endif %} {% endfor %}
     </div>
 </body>
