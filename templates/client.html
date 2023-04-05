@@ -22,6 +22,7 @@
             padding: 10px 20px; /* Changed the top and bottom padding to 10px */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 15px;
+            box-sizing: border-box;
         }
 
         h1 {
@@ -70,6 +71,7 @@
             flex-direction: row;
             flex-wrap: wrap;
             gap: 20px;
+            justify-content: space-between;
         }
 
         .field {
@@ -77,8 +79,8 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
             margin-bottom: 20px;
+            width: calc(100% - 40px);
             transition: 0.3s;
         }
 
@@ -136,6 +138,35 @@
             object-fit: cover; /* Set the object-fit property to cover */
              animation: fall-in 1s ease-out forwards;
         }
+
+        @media screen and (max-width: 768px) {
+            .fields {
+        flex-direction: column;
+            }
+
+            .field {
+        width: calc(100% - 39px);
+            }
+
+            .property-agent-container {
+        flex-direction: column;
+        align-items: center;
+            }
+
+            .agent-name {
+        text-align: center;
+        margin-top: 20px;
+            }
+
+            img.logo {
+        width: 300px;
+            }
+
+            h1 {
+        font-size: 28px;
+            }
+        }
+
 
     </style>
 </head>
