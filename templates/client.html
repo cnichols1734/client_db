@@ -15,14 +15,14 @@
         }
 
         .container {
-    max-width: 1200px;
-    width: 90%;
-    margin: 0 auto; /* Changed the top and bottom margin to 0 */
-    background-color: #fff;
-    padding: 10px 20px; /* Changed the top and bottom padding to 10px */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-}
+            max-width: 1200px;
+            width: 90%;
+            margin: 0 auto; /* Changed the top and bottom margin to 0 */
+            background-color: #fff;
+            padding: 10px 20px; /* Changed the top and bottom padding to 10px */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
 
         h1 {
             text-align: center;
@@ -109,7 +109,7 @@
         100% {
         opacity: 1;
         }
-}
+        }
         .agent-name {
             font-size: 28px;
             color: #3ddad7;
@@ -122,71 +122,67 @@
         }
 
         .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px; /* Set the desired height for the container */
-    overflow: hidden;
-}
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px; /* Set the desired height for the container */
+            overflow: hidden;
+        }
 
-img.logo {
-    width: 380px;
-    display: block;
-    margin-bottom: 5px;
-    object-fit: cover; /* Set the object-fit property to cover */
-     animation: fall-in 1s ease-out forwards;
-}
+        img.logo {
+            width: 380px;
+            display: block;
+            margin-bottom: 5px;
+            object-fit: cover; /* Set the object-fit property to cover */
+             animation: fall-in 1s ease-out forwards;
+        }
 
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="logo-container">
-            <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo">
-        </div>
+        <div class="logo-container"> <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo"> </div>
         <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
             <div class="property-agent-container">
                 <h2>Property: {{ property.street_address }}</h2>
                 <h2 class="agent-name">Agent: {{ client.agent_name }}</h2>
             </div>
-
-                <div class="field">
-                    <div class="field-title">Appraisal Date:</div>
-                    <div class="field-value">{{ property.appraisal|date if property.appraisal else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-                <div class="field">
-                    <div class="field-title">Option Period Expires:</div>
-                    <div class="field-value">{{ property.option_period_expires|date if property.option_period_expires else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-                <div class="field">
-                    <div class="field-title">Survey Provided By & Survey Due Date:</div>
-                    <div class="field-value">{{ property.survey_provided_by }} {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-                <div class="field">
-                    <div class="field-title">Buyer Financing Deadline:</div>
-                    <div class="field-value">{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-                <div class="field">
-                    <div class="field-title">Buyer Final Walkthrough:</div>
-                    <div class="field-value">{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-                <div class="field">
-                    <div class="field-title">Agreed Upon Repairs:</div>
-                    <div class="field-value">{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-                <div class="field">
-                    <div class="field-title">Closing Date:</div>
-                    <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
-                    <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-                </div>
-
+            <div class="field">
+                <div class="field-title">Appraisal Date:</div>
+                <div class="field-value">{{ property.appraisal|date if property.appraisal else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
+            <div class="field">
+                <div class="field-title">Option Period Expires:</div>
+                <div class="field-value">{{ property.option_period_expires|date if property.option_period_expires else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
+            <div class="field">
+                <div class="field-title">Survey Provided By & Survey Due Date:</div>
+                <div class="field-value">{{ property.survey_provided_by }} {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
+            <div class="field">
+                <div class="field-title">Buyer Financing Deadline:</div>
+                <div class="field-value">{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
+            <div class="field">
+                <div class="field-title">Buyer Final Walkthrough:</div>
+                <div class="field-value">{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
+            <div class="field">
+                <div class="field-title">Agreed Upon Repairs:</div>
+                <div class="field-value">{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
+            <div class="field">
+                <div class="field-title">Closing Date:</div>
+                <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div>
         </section> {% endif %} {% endfor %}
     </div>
 </body>
