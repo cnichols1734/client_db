@@ -131,7 +131,6 @@
 
 
     </script>
-    </script>
 </head>
 <body>
 <div class="theme-toggle" id="themeToggle">&#9788;</div>
@@ -181,7 +180,7 @@
     <td>{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else '' }}</td>
     <td>{{ property.closing_date|date if property.closing_date else '' }}</td>
     <td class="notes" title="{{ property.notes }}">{{ property.notes|truncate(7, True) }}</td>
-    </td> <!-- Added Notes field data -->
+     <!-- Added Notes field data -->
     <td>
         <button type="button" class="btn btn-primary update-property" data-id="{{ property.id }}">Update
             Property
