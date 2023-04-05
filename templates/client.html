@@ -15,17 +15,18 @@
         }
 
         .container {
-            max-width: 1200px;
-            width: 90%;
-            margin: 40px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-        }
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto; /* Changed the top and bottom margin to 0 */
+    background-color: #fff;
+    padding: 10px 20px; /* Changed the top and bottom padding to 10px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+}
 
         h1 {
             text-align: center;
+             margin-top: 10px;
             margin-bottom: 30px;
             color: #fff;
             font-size: 38px;
@@ -120,11 +121,30 @@
             justify-content: space-between;
         }
 
+        .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Set the desired height for the container */
+    overflow: hidden;
+}
+
+img.logo {
+    width: 380px;
+    display: block;
+    margin-bottom: 5px;
+    object-fit: cover; /* Set the object-fit property to cover */
+     animation: fall-in 1s ease-out forwards;
+}
+
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo">
+        </div>
         <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
             <div class="property-agent-container">
                 <h2>Property: {{ property.street_address }}</h2>
