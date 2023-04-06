@@ -124,13 +124,13 @@
             justify-content: space-between;
         }
         .label { /* Adjust the color of the property and agent field here */
-    color: #3ddad7;
+            color: #3ddad7;
 
-}
+        }
 
-.data { /* Adjust the color of the property and agent data here */
-    color: #747474;
-}
+        .data { /* Adjust the color of the property and agent data here */
+            color: #747474;
+        }
 
         .logo-container {
             display: flex;
@@ -175,6 +175,14 @@
         font-size: 28px;
             }
         }
+        .notes {
+          font-weight: normal;
+        }
+
+
+
+
+
 
 
     </style>
@@ -199,8 +207,8 @@
                 <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
             </div>
             <div class="field">
-                <div class="field-title">Survey Provided By & Survey Due Date:</div>
-                <div class="field-value">{{ property.survey_provided_by }} {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
+                <div class="field-title">Survey Info & Due Date:</div>
+                <div class="field-value">{{ property.survey_provided_by }} - Due Date: {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
                 <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
             </div>
             <div class="field">
@@ -219,9 +227,8 @@
                 <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
             </div>
             <div class="field">
-                <div class="field-title">Closing Date:</div>
-                <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-title">Notes:</div>
+                <div class="field-value notes" style="white-space: pre-line;">{{ property.notes }}</div>
             </div>
         </section> {% endif %} {% endfor %}
     </div>
