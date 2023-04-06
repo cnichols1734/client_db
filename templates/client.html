@@ -123,6 +123,14 @@
             display: flex;
             justify-content: space-between;
         }
+        .label { /* Adjust the color of the property and agent field here */
+    color: #3ddad7;
+
+}
+
+.data { /* Adjust the color of the property and agent data here */
+    color: #747474;
+}
 
         .logo-container {
             display: flex;
@@ -177,8 +185,8 @@
         <div class="logo-container"> <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo"> </div>
         <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
             <div class="property-agent-container">
-                <h2>Property: {{ property.street_address }}</h2>
-                <h2 class="agent-name">Agent: {{ client.agent_name }}</h2>
+                <h2><span class="label">Property:</span> <span class="data">{{ property.street_address }}</span></h2>
+                <h2 class="agent-name"><span class="label">Agent:</span> <span class="data">{{ client.agent_name }}</span></h2>
             </div>
             <div class="field">
                 <div class="field-title">Appraisal Date:</div>
@@ -191,8 +199,10 @@
                 <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
             </div>
             <div class="field">
-                <div class="field-title">Survey Provided By & Survey Due Date:</div>
-                <div class="field-value">{{ property.survey_provided_by }} {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
+                <div class="field-title">Survey Provided By:</div>
+                <div class="field-value">{{ property.survey_provided_by }}</div>
+                <div class="field-title">Survey Due Date:</div>
+                <div class="field-value">{{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
                 <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
             </div>
             <div class="field">
