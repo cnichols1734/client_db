@@ -227,9 +227,13 @@
                 <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
             </div>
             <div class="field">
+                <div class="field-title">Closing Date:</div>
+                <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
+                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+            </div> {% if property.notes %} <div class="field">
                 <div class="field-title">Notes:</div>
                 <div class="field-value notes" style="white-space: pre-line;">{{ property.notes }}</div>
-            </div>
+            </div> {% endif %}
         </section> {% endif %} {% endfor %}
     </div>
 </body>
