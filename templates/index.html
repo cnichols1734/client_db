@@ -90,11 +90,11 @@
         /* Modal Content/Box */
         .modal-content {
         background-color: #fefefe;
-        margin: 15% auto; /* Add this line to center the modal vertically */
+        margin: 5% auto; /* Add this line to center the modal vertically */
         padding: 20px;
         border: 1px solid #888;
         width: 40%; /* Change this to modify the width of the modal */
-        max-width: 300px; /* Add this line to limit the maximum width */
+        max-width: 290px; /* Add this line to limit the maximum width */
             }
 
             /* Add or update this style to ensure the buttons are horizontally aligned */
@@ -493,7 +493,9 @@
         var closeEditClient = document.getElementsByClassName("close-edit-client")[0];
 
         // Get the cancel button element in the edit client modal
-        var cancelEditClient = document.getElementsByClassName("cancel-edit-client")[0];
+        // Get the cancel button element in the edit client modal
+        var cancelEditClient = document.getElementsByClassName("cancel-button-modal")[0];
+
 
         // Function to open the edit client modal
         // Update the function to accept the clientName parameter
