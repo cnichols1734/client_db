@@ -177,13 +177,8 @@
         }
         .notes {
           font-weight: normal;
+          font-size: 16px
         }
-
-
-
-
-
-
 
     </style>
 </head>
@@ -197,45 +192,100 @@
                 <h2 class="agent-name"><span class="label">Agent:</span> <span class="data">{{ client.agent_name }}</span></h2>
             </div>
             <div class="field">
-                <div class="field-title">Appraisal Date:</div>
-                <div class="field-value">{{ property.appraisal|date if property.appraisal else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
-            </div>
-            <div class="field">
                 <div class="field-title">Option Period Expires:</div>
                 <div class="field-value">{{ property.option_period_expires|date if property.option_period_expires else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-description">
+                    <ul>
+                        <li>The option period is a set amount of time during which the buyer typically has the home inspected and makes sure that everything is in acceptable condition for them to move forward.</li> <br>
+                        <li>During the option period, the buyer has the right to back out of the contract, request repairs, renegotiate price, or ask for you to contribute money towards repairs or closing costs.</li> <br>
+                        <li>If the buyer chooses to continue with the purchase after this option period is over, they’re generally locked into the contract (with a few exceptions) and might lose their earnest money deposit if they do not close on your property.</li>
+                    </ul>
+                </div>
             </div>
             <div class="field">
                 <div class="field-title">Survey Info & Due Date:</div>
-                <div class="field-value">{{ property.survey_provided_by }} - Due Date: {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-value" id="surveyProvidedBy">{{ property.survey_provided_by }} - Due Date: {{ property.survey_due_date|date if property.survey_due_date else 'Not Scheduled' }}</div>
+                <div class="field-description" id="fieldDescription"></div>
             </div>
             <div class="field">
                 <div class="field-title">Buyer Financing Deadline:</div>
                 <div class="field-value">{{ property.buyer_financing_deadline|date if property.buyer_financing_deadline else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-description">
+                    <ul>
+                        <li>The financing deadline is the date by which the buyer is required to obtain a final loan approval from their lender. If the lender determines after this deadline that they cannot finance the loan, the buyer may lose their earnest money deposit.</li>
+                    </ul>
+                </div>
             </div>
             <div class="field">
-                <div class="field-title">Buyer Final Walkthrough:</div>
-                <div class="field-value">{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-title">Appraisal Date:</div>
+                <div class="field-value">{{ property.appraisal|date if property.appraisal else 'Not Scheduled' }}</div>
+                <div class="field-description">
+                    <ul>
+                        <li>This is the date that the appraiser has scheduled to come and view your home (or property) to complete the appraisal report.</li> <br>
+                        <li>The lender uses this appraisal to make sure that they are not lending more than the property is worth. If the appraisal values your property for the sales price or more, that’s great news and we’ll move forward towards closing.</li> <br>
+                        <li>If the appraisal values the property for less than the sales price, we may need to renegotiate. The buyer may ask to renegotiate the sales price, pay the difference in the low value and sales price in cash, or terminate the contract.</li>
+                    </ul>
+                </div>
             </div>
             <div class="field">
                 <div class="field-title">Agreed Upon Repairs:</div>
                 <div class="field-value">{{ property.agreed_upon_repairs|date if property.agreed_upon_repairs else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-description">
+                    <ul>
+                        <li>If you agreed to make any repairs to the property, they must be done, at a minimum, by the closing date. <strong>It’s a good idea to start working on and completing these repairs well in advance of closing, to avoid any potential delays.</strong></li> <br>
+                        <li>Unless otherwise agreed to in writing, the contract requires that repairs be made by someone licensed to complete that repair. Ex: You must hire a licensed electrician to make electrical repairs.</li> <br>
+                        <li>If no license is required for the type of repair that was agreed to, the repair must be made by someone commercially engaged in that type of repair. Ex: If woodwork needs to be repaired or replaced, you might use a professional handyman.</li> <br>
+                        <li>Keep receipts and reports for any of the repairs you have made to provide a copy to the buyer.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="field">
+                <div class="field-title">Buyer Final Walkthrough:</div>
+                <div class="field-value">{{ property.buyer_final_walkthrough|date if property.buyer_final_walkthrough else 'Not Scheduled' }}</div>
+                <div class="field-description">
+                    <ul>
+                        <li>Buyers usually do one last final walk-through of the home before closing to make sure that it is in the same condition that they agreed to purchase it in.</li> <br>
+                        <li>They’ll check to make sure that appliances, permanent or temporary fixtures that are supposed to included in the sale are still present. They’ll also make sure that any repairs that were agreed upon have been made.</li> <br>
+                        <li><strong>It’s important to have the home in clean condition before the final walk-through to avoid any issues or delays.</strong></li>
+                    </ul>
+                </div>
             </div>
             <div class="field">
                 <div class="field-title">Closing Date:</div>
                 <div class="field-value">{{ property.closing_date|date if property.closing_date else 'Not Scheduled' }}</div>
-                <div class="field-description">This is the deadline by which the buyer must give written notice if they have been unable to satisfy the lender's requirements related to the buyer's assets, income, and credit history.</div>
+                <div class="field-description">
+                    <ul>
+                        <li>This is the day we've all been waiting for! The closing is scheduled to happen on or before this date.</li> <br>
+                        <li>Occasionally, the parties to a transaction will agree to extend the closing date due to lending or other delays, but currently, this is the agreed upon closing date.</li> <br>
+                        <li>For closing, <strong>please remember to bring your photo ID</strong> and a voided check or account information for the account that you would like your proceeds to be wired to.</li>
+                    </ul>
+                </div>
             </div> {% if property.notes %} <div class="field">
                 <div class="field-title">Notes:</div>
                 <div class="field-value notes" style="white-space: pre-line;">{{ property.notes }}</div>
             </div> {% endif %}
         </section> {% endif %} {% endfor %}
     </div>
+    <script>
+        function updateDescription() {
+            const surveyProvidedBy = document.getElementById('surveyProvidedBy').textContent.trim();
+            let description = '';
+
+            if (surveyProvidedBy.includes('Seller New')) {
+                description = "<ul><li>In the contract, you've agreed to purchase a new survey. We will coordinate with the title company to order the survey. The new survey is due to the buyer by this date.</li></ul>";
+            } else if (surveyProvidedBy.includes('Seller Existing')) {
+                description = "<ul><li>In the contract, you've agreed to provide your existing survey of the property. We must provide the survey to the buyer and the title company by this date.</li></ul>";
+            } else if (surveyProvidedBy.includes('Buyer New')) {
+                description = "<ul><li>In the contract, the buyer has agreed to purchase a new survey. The new survey is due by this date.</li></ul>";
+            } else if (surveyProvidedBy.includes('Survey Not Required')) {
+                description = "<ul><li>A survey is not required.</li></ul>";
+            }
+
+            document.getElementById('fieldDescription').innerHTML = description;
+        }
+
+        updateDescription();
+    </script>
 </body>
 
 </html>
