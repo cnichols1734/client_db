@@ -163,7 +163,7 @@
             }
 
             .agent-name {
-        text-align: center;
+        text-align: left;
         margin-top: 20px;
             }
 
@@ -210,7 +210,7 @@
 
 <body>
     <div class="container">
-        <div class="logo-container"> <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo"> </div>
+        <div class="logo-container"> <a href="https://www.origenrealty.com/" target="_blank"> <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo"> </a> </div>
         <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
             <div class="property-agent-container">
                 <h2><span class="label">Property:</span> <span class="data">{{ property.street_address }}</span></h2>
