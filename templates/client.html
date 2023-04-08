@@ -21,7 +21,7 @@
             margin: 0 auto; /* Changed the top and bottom margin to 0 */
             background-color: #fff;
             padding: 10px 20px; /* Changed the top and bottom padding to 10px */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             box-sizing: border-box;
         }
@@ -86,7 +86,7 @@
         }
 
         .field:hover {
-            transform: translateY(-5px);
+            transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
@@ -141,7 +141,7 @@
         }
 
         img.logo {
-            width: 380px;
+            width: 420px;
             display: block;
             margin-bottom: 5px;
             object-fit: cover; /* Set the object-fit property to cover */
@@ -178,6 +178,31 @@
         .notes {
           font-weight: normal;
           font-size: 16px
+        }
+
+        .notes-container {
+            background-color: #d6eeed; /* You can change this to your desired darker color */
+            border: 0.5px solid gray; /* Add a border to the notes container */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Add a box-shadow to the notes container */
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .notes-title {
+            font-family: 'calibri', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 10px;
+        }
+        footer {
+            background-color: #f7f7f7;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer small {
+            font-size: 12px;
+            color: #666;
         }
 
     </style>
@@ -265,11 +290,11 @@
                         <li>For closing, <strong>please remember to bring your photo ID</strong> and a voided check or account information for the account that you would like your proceeds to be wired to.</li>
                     </ul> {% elif property.property_type == 'Buyer' %} <ul>
                         <li>This is the day we've all been waiting for! The closing is scheduled to happen on or before this date.</li> <br>
-                        <li>Occasionally, the parties to a transaction will agree to extend the closing date due to lending or other delays, but currently, this is the agreed upon closing date.</li>
-                        <li>For closing, <strong>please remember to bring your photo ID to closing.</strong></li>
+                        <li>Occasionally, the parties to a transaction will agree to extend the closing date due to lending or other delays, but currently, this is the agreed upon closing date.</li> <br>
+                        <li>For closing, <strong>please remember to bring your photo ID.</strong></li>
                     </ul> {% endif %} </div>
-            </div> {% if property.notes %} <div class="field">
-                <div class="field-title">Notes:</div>
+            </div> {% if property.notes %} <div class="field notes-container">
+                <div class="notes-title">Notes:</div>
                 <div class="field-value notes" style="white-space: pre-line;">{{ property.notes }}</div>
             </div> {% endif %}
         </section> {% endif %} {% endfor %}
@@ -307,6 +332,7 @@
 
         updateDescription();
     </script>
+    <footer> <small>Legal Disclosure: Anything you see here is just for your damn convenience, we are not lawyers.</small> </footer>
 </body>
 
 </html>
