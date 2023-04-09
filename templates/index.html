@@ -268,30 +268,29 @@
         }
                 th:nth-child(1), td:nth-child(1) {
           width: 12%;
-          height: 20px; /* Adjust the height of the row */
         }
 
         th:nth-child(2), td:nth-child(2) {
-          width: 32%;
-          height: 20px; /* Adjust the height of the row */
+          width: 28%; /* Adjust the width of the Client Name column */
         }
 
         th:nth-child(3), td:nth-child(3) {
-          width: 32%;
+          width: 28%; /* Adjust the width of the Agent Name column */
           white-space: nowrap;
-          height: 20px; /* Adjust the height of the row */
         }
 
         th:nth-child(4), td:nth-child(4) {
-          width: 24%;
+          width: 12%; /* Adjust the width of the Properties column */
           text-align: center;
-          height: 20px; /* Adjust the height of the row */
+        }
+
+        th:nth-child(5), td:nth-child(5) {
+          width: 20%; /* Adjust the width of the Actions column */
         }
 
         td, th {
-         padding: 0.5rem; /* Change the padding value */
-            margin: 0.5rem; /* Change the margin value */
-        }
+          padding: 0.5rem; /* Change the padding value */
+          margin: 0.5rem; /* Change the margin value */
         }
 
         .input-container {
@@ -407,11 +406,13 @@
                 <th>View Details</th>
                 <th>Client Name</th>
                 <th>Agent Name</th>
+                <th>Properties</th> <!-- Add this line for the new column -->
                 <th>Actions</th>
             </tr> {% for client in clients %} <tr>
-                <td> <button class="view-property-btn" onclick="window.location.href='/client/{{ client.id }}'"> View Details </button> </td>
+                <td><button class="view-property-btn" onclick="window.location.href='/client/{{ client.id }}'"> View Details </button> </td>
                 <td>{{ client.client_name }}</td>
                 <td>{{ client.agent_name }}</td>
+                <td>{{ client.properties|length }}</td> <!-- Add this line to display the number of properties -->
                 <td> <button class="add-property-btn" id="addPropertyBtn-{{ client.id }}" onclick="openAddPropertyModal({{ client.id }})">Add Property </button> <button class="edit-client-btn" id="editClientBtn-{{ client.id }}" onclick="openEditClientModal({{ client.id }}, '{{ client.client_name }}', '{{ client.agent_name }}')">Edit</button>
                     <form action="{{ url_for('delete_client_and_property', id=client.id) }}" method="post" style="display:inline;"> <input type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this client and their property? This cannot be undone.');" class="delete-button"> </form>
                 </td>
