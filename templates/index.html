@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Origen Realty Client Management</title>
+    <title>Origen TechnolOG</title>
     <style>
         body {
             font-family: Calibri, sans-serif;
@@ -18,23 +18,22 @@
         .container {
             max-width: 1400px;
             width: 90%;
-            margin: 20px auto;
+            margin: 10px auto;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
         h1 {
-          text-align: center;
-          margin-bottom: 40px;
-          color: white;
-          font-family: Calibri, sans-serif;
-          font-size: 40px;
-          font-weight: bold;
-          background-color: #32c2bf;
-          border-radius: 10px;
-          height: 80px; /* adjust as needed */
-          line-height: 80px; /* match the height to vertically center the text */
+            text-align: center;
+            margin: 0; /* Remove the bottom margin */
+            padding: 10px 0; /* Add padding to top and bottom of the h1 element */
+            color: white;
+            font-family: Calibri, sans-serif;
+            font-size: 40px;
+            font-weight: bold;
+            background-color: #32c2bf;
+            border-radius: 10px;
         }
         form {
             display: flex;
@@ -256,7 +255,7 @@
         .header-actions {
         display: flex;
         justify-content: space-between;
-<!--        align-items: center;-->
+        <!--        align-items: center;-->
             }
 
             .header-actions > form {
@@ -353,6 +352,20 @@
         .cancel-button-modal:hover {
             background-color: #A5A5A5;
         }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 170px; /* Adjust this value to control the space above and below the logo */
+            border-radius: 10px; /* Optional: Add border-radius to match the container border */
+        }
+
+        .logo {
+            display: block;
+            max-width: 580px; /* Adjust the width of the logo */
+            height: auto;
+            margin: 0;
+        }
 
     </style>
 </head>
@@ -363,7 +376,7 @@
         <form action="{{ url_for('logout') }}" method="POST"> <input class="logout-btn" type="submit" value="Logout"> </form>
     </div>
     <div class="container">
-        <h1>Origen TechnolOG</h1>
+        <div class="logo-container"> <img src="{{ url_for('static', filename='Origen TechnolOG Black Logo 2400x1800.png') }}" alt="Origen TechnolOG" class="logo"> </div>
         <div class="header-actions">
             <form action="/add" method="post">
                 <div class="form-group"> <label for="client_name">Client Name</label> <input type="text" name="client_name" id="client_name" placeholder="Client Name" required> </div>
