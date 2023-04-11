@@ -255,34 +255,34 @@
             font-size: 15px;
             color: #333;
             margin-bottom: 10px;
-            padding-left: 30px;
+            padding-left: 40px;
             position: relative;
-            max-width: calc(100% - 30px); /* Set a maximum width for the list items */
-            word-wrap: break-word; /* Allow text wrapping when it reaches the maximum width */
-            display: flex;
+            max-width: calc(100% - 30px);
+            word-wrap: break-word;
+            display: block; /* Change display back to flex */
             line-height: 2;
+            align-items: flex-start; /* Add this line */
         }
 
-        .client-checklist li::before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            background-color: #3ddad7;
-            border-radius: 50%;
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
+        <!--        .client-checklist li::before {-->
+        <!--    content: "";-->
+        <!--    width: 10px;-->
+        <!--    height: 10px;-->
+        <!--    background-color: #3ddad7;-->
+        <!--    border-radius: 50%;-->
+        <!--    position: absolute;-->
+        <!--    left: 0; /* Adjust the left position of the bullet */-->
+        <!--    top: 60%;-->
+        <!--    transform: translateY(-50%);-->
+        <!--}-->
         .checklist-toggle {
             font-size: 14px !important; /* Adjust the font size of the button text */
             padding: 5px 10px !important; /* Adjust the padding around the button text */
             border-radius: 9px !important; /* Adjust the border radius for rounded corners */
         }
 
-        .client-checklist input[type="checkbox"].checked {
-            background-color: #3ddad7 !important;
-            border-color: #3ddad7 !important;
+        .client-checklist input[type="checkbox"] {
+            margin-top: 7px; /* Add this line */
             margin-right: 4px !important;
         }
         .client-checklist li:nth-child(odd) {
@@ -296,9 +296,7 @@
     <div class="client-checklist"> <button onclick="toggleChecklist()" class="checklist-toggle">Client Checklist</button>
         <div id="checklist-container" class="checklist-content" style="display: none;">
             <h3>Client Checklist</h3>
-            <ul>
-                {% if property.property_type == 'Seller' %}
-                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Contact your utility providers to cancel service. The contract requires that the utilities be kept on throughout closing, so it's best to schedule them to be shut off the day after closing.</span></li>
+            <ul> {% if property.property_type == 'Seller' %} <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Contact your utility providers to cancel service. The contract requires that the utilities be kept on throughout closing, so it's best to schedule them to be shut off the day after closing.</span></li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Water</li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Electricity and/or Gas</li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Cable</li>
@@ -310,11 +308,9 @@
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Bring either a voided check or your bank account information to closing. The title company needs the name of your bank, account number, and routing number to wire your closing proceeds.</li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Don't forget to bring your license or ID to closing. The title company requires it to verify your identitiy before signing documents.</li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; After closing, contact your property insurance company and cancel your policy.</li>
-                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; After closing, contact your mortgage company to see if you are owed a refund from your escrow account. If you don't contact them, the mortgage company will send you a refund eventually, but contacting them now will expedite your refund.</li>
-                {% elif property.property_type == 'Buyer' %}
-                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Schedule your inspection within your option period. Your agent will help you coordinate the scheduling. You are free to use any inspector of your choosing. If you need help choosing, here is a list of inspectors we've worked with: [LINK].</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; After closing, contact your mortgage company to see if you are owed a refund from your escrow account. If you don't contact them, the mortgage company will send you a refund eventually, but contacting them now will expedite your refund.</li> {% elif property.property_type == 'Buyer' %} <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Schedule your inspection within your option period. Your agent will help you coordinate the scheduling. You are free to use any inspector of your choosing. If you need help choosing, here is a list of inspectors we've worked with: <a href="{{ url_for('preferred_providers') }}" target="_blank">LINK</a></li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Provide all documents and information requested by your lender. It is essential that you provide these documents timely, to ensure your obtain approval before your financing deadline and can close on time. </li>
-                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Start shopping for homeowner's insurance. We recommend getting at least a few quotes so that you can choose the best price and coverage. If you need help choosing an insurance company, here is a list of insurance agents that we've worked with: [LINK]. </li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Start shopping for homeowner's insurance. We recommend getting at least a few quotes so that you can choose the best price and coverage. If you need help choosing an insurance company, here is a list of insurance agents that we've worked with: <a href="{{ url_for('preferred_providers') }}" target="_blank">LINK</a>.</li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; If you're using a moving company, schedule the movers. </li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Set up utilities. It might be a good idea to schedule some of them , like water and electricity, to be turned on the day before closing, just to make sure there aren't any lapses. </li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Set up Water</li>
@@ -325,8 +321,7 @@
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Forward your mailing address. You can forward your mailing address online at&nbsp; <a href="https://www.USPS.com/move" target="_blank">www.USPS.com/move</a></li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Get a cashiers check, or schedule a wire to pay your down payment and/or closing costs. Never rely on wiring instructions that you've received via email, without calling the title company to verbally verify that they are the legitimate and correct instructions. Wire fraud is on the rise. </li>
                 <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Don't forget to bring your license or ID to closing. The title company requires it to verify your identitiy before signing documents. </li>
-                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; File your homestead exemption to save money on property taxes. </li>
-                {% endif %}
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; File your homestead exemption to save money on property taxes. </li> {% endif %}
             </ul>
         </div>
     </div>

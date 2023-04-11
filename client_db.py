@@ -218,6 +218,10 @@ def clients():
     return render_template('clients.html', clients=clients)
 
 
+@app.route('/preferred_providers')
+def preferred_providers():
+    return render_template('preferred_providers.html')
+
 
 @app.route('/')
 def index():
