@@ -206,10 +206,113 @@
             color: #666;
         }
 
+        .client-checklist {
+            position: relative;
+            z-index: 1;
+        }
+
+        .client-checklist .checklist-toggle {
+            background-color: #3ddad7;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .client-checklist .checklist-toggle:hover {
+            background-color: #30c5c2;
+        }
+
+        .client-checklist .checklist-content {
+            position: absolute;
+            top: 50px;
+            left: 10px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
+        }
+
+        .client-checklist h3 {
+            font-size: 24px;
+            color: #3ddad7;
+            margin-bottom: 20px;
+        }
+
+        .client-checklist ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .client-checklist li {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+            max-width: calc(100% - 30px); /* Set a maximum width for the list items */
+            word-wrap: break-word; /* Allow text wrapping when it reaches the maximum width */
+            display: flex;
+            line-height: 2;
+        }
+
+        .client-checklist li::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background-color: #3ddad7;
+            border-radius: 50%;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .checklist-toggle {
+            font-size: 14px !important; /* Adjust the font size of the button text */
+            padding: 5px 10px !important; /* Adjust the padding around the button text */
+            border-radius: 9px !important; /* Adjust the border radius for rounded corners */
+        }
+
+        .client-checklist input[type="checkbox"].checked {
+            background-color: #3ddad7 !important;
+            border-color: #3ddad7 !important;
+            margin-right: 4px !important;
+        }
+        .client-checklist li:nth-child(odd) {
+            background-color: #f2f2f2; /* Add alternate background colors */
+        }
+
     </style>
 </head>
 
 <body>
+    <div class="client-checklist"> <button onclick="toggleChecklist()" class="checklist-toggle">Client Checklist</button>
+        <div id="checklist-container" class="checklist-content" style="display: none;">
+            <h3>Client Checklist</h3>
+            <ul>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Contact your utility providers to cancel service. The contract requires that the utilities be kept on throughout closing, so it's best to schedule them to be shut off the day after closing.</span></li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Water</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Electricity and/or Gas</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Cable</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Internet</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Cancel Home Security Service</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; If you're using a moving company, schedule the movers.</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Gather all spare keys and garage door openers. Don't forget mailbox keys. Bring these to the closing or make arrangements with your agent to leave them for the seller at the property.</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Forward your mailing address. You can forward your mailing address online at&nbsp; <a href="https://www.USPS.com/move" target="_blank">www.USPS.com/move</a></li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Bring either a voided check or your bank account information to closing. The title company needs the name of your bank, account number, and routing number to wire your closing proceeds.</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; Don't forget to bring your license or ID to closing. The title company requires it to verify your identitiy before signing documents.</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; After closing, contact your property insurance company and cancel your policy.</li>
+                <li><input type="checkbox" onchange="saveChecklistState()"> &nbsp; After closing, contact your mortgage company to see if you are owed a refund from your escrow account. If you don't contact them, the mortgage company will send you a refund eventually, but contacting them now will expedite your refund.</li>
+            </ul>
+        </div>
+    </div>
     <div class="container">
         <div class="logo-container"> <a href="https://www.origenrealty.com/" target="_blank"> <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo"> </a> </div>
         <h1>Status Report for {{ client.client_name }}</h1> {% for property in client.properties %} {% if property.uuid == desired_property_uuid %} <section class="section">
@@ -332,8 +435,58 @@
         }
 
         updateDescription();
+
+        /* Client Checklist Script */
+        function toggleChecklist() {
+        const checklistContainer = document.getElementById('checklist-container');
+        if (checklistContainer.style.display === 'none') {
+            checklistContainer.style.display = 'block';
+        } else {
+            checklistContainer.style.display = 'none';
+        }
+            }
+
+            function saveChecklistState() {
+        const checkboxes = document.querySelectorAll('.client-checklist input[type="checkbox"]');
+        const checkedItems = [];
+        checkboxes.forEach((checkbox, index) => {
+            if (checkbox.checked) {
+                checkbox.classList.add("checked");
+                checkedItems.push(index);
+            } else {
+                checkbox.classList.remove("checked");
+            }
+        });
+        localStorage.setItem('client-checklist', JSON.stringify(checkedItems));
+            }
+
+            function loadChecklistState() {
+        const savedData = localStorage.getItem('client-checklist');
+        if (savedData) {
+            const checkedItems = JSON.parse(savedData);
+            const checkboxes = document.querySelectorAll('.client-checklist input[type="checkbox"]');
+            checkedItems.forEach(index => {
+                checkboxes[index].checked = true;
+                checkboxes[index].classList.add("checked");
+            });
+        }
+            }
+
+            function handleClickOutside(event) {
+        const clientChecklist = document.querySelector('.client-checklist');
+        const checklistContainer = document.getElementById('checklist-container');
+        if (!clientChecklist.contains(event.target) && checklistContainer.style.display === 'block') {
+            checklistContainer.style.display = 'none';
+        }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+        loadChecklistState();
+        document.addEventListener('click', handleClickOutside);
+            });
     </script>
     <footer> <small>Legal Disclosure: Anything you see here is just for your damn convenience, we are not lawyers.</small> </footer>
+    </div>
 </body>
 
 </html>
