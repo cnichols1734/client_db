@@ -3,334 +3,138 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preferred Insurance Companies</title>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Favicon_White.png') }}">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(45deg, #E0E0E0, #F5F5F5);
-             min-height: 100vh;
-        }
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Preferred Providers</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
+    body {
+        font-family: 'Roboto', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: rgb(242,242,242);
+        background: linear-gradient(90deg, rgba(242,242,242,1) 1%, rgba(238,240,240,1) 100%);
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        max-width: 1200px;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin-top: -40px;
+        margin-bottom: -60px;
+    }
+
+    .logo {
+        max-width: 400px;
+    }
+
+
+    h1 {
+        font-size: 2.5rem;
+        border-bottom: 3.5px solid black;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+
+    .provider-container {
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .provider-container:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 9px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        color: #4a4a4a;
+    }
+
+    a {
+        color: #4a4a4a;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #1e90ff;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    .insurance-container {
+        border-left: 7px solid #32c2bf;
+    }
+
+    .inspection-container {
+        border-left: 7px solid #32c2bf;
+    }
+
+    @media (max-width: 768px) {
         .container {
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto; /* Changed the top and bottom margin to 0 */
-            background-color: #fff;
-            padding: 10px 20px; /* Changed the top and bottom padding to 10px */
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            box-sizing: border-box;
+    width: 95%;
         }
 
         h1 {
-            text-align: center;
-             margin-top: 10px;
-            margin-bottom: 30px;
-            color: #fff;
-            font-size: 38px;
-            padding: 10px;
-            background: linear-gradient(135deg, #3ddad7, #30c5c2);
-            border-radius: 15px;
-            font-family: 'Work Sans', serif;
-            letter-spacing: .5px;
-            animation: fall-in 1s ease-out forwards;
+    font-size: 2rem;
         }
-
-<!--        @keyframes fall-in {-->
-<!--        0% {-->
-<!--        transform: translateY(-100%);-->
-<!--        }-->
-<!--        70% {-->
-<!--        transform: translateY(10px);-->
-<!--        }-->
-<!--        100% {-->
-<!--        transform: translateY(0);-->
-<!--        }-->
-<!--        }-->
 
         h2 {
-            font-size: 28px;
-            color: #3ddad7;
-            margin-bottom: 20px;
+    font-size: 1.5rem;
         }
-
-        .section {
-            background-color: #f5f5f5;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
-        }
-
-        .fields {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: space-between;
-        }
-
-        .field {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            width: calc(100% - 40px);
-            transition: 0.3s;
-        }
-
-        .field:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .field-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #3ddad7;
-            margin-bottom: 10px;
-            animation: fade-in 1s ease-out forwards;
-        }
-
-        .field-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-            animation: fade-in 1s ease-out forwards;
-        }
-        @keyframes fade-in {
-        0% {
-        opacity: 0;
-        }
-        100% {
-        opacity: 1;
-        }
-        }
-        .agent-name {
-            font-size: 28px;
-            color: #3ddad7;
-            margin-bottom: 20px;
-            text-align: right;
-        }
-        .property-agent-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .label { /* Adjust the color of the property and agent field here */
-            color: #3ddad7;
-
-        }
-
-        .data { /* Adjust the color of the property and agent data here */
-            color: #747474;
-        }
-
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px; /* Set the desired height for the container */
-            overflow: hidden;
-        }
-
-        img.logo {
-            width: 420px;
-            display: block;
-            margin-bottom: 5px;
-            object-fit: cover; /* Set the object-fit property to cover */
-             animation: fall-in 1s ease-out forwards;
-        }
-
-        @media screen and (max-width: 768px) {
-            .fields {
-        flex-direction: column;
-            }
-
-            .field {
-        width: calc(100% - 39px);
-            }
-
-            .property-agent-container {
-        flex-direction: column;
-        align-items: center;
-            }
-
-            .agent-name {
-        text-align: left;
-        margin-top: 20px;
-            }
-
-            img.logo {
-        width: 300px;
-            }
-
-            h1 {
-        font-size: 28px;
-            }
-        }
-        .notes {
-          font-weight: normal;
-          font-size: 16px
-        }
-
-        .notes-container {
-            background-color: #d6eeed; /* You can change this to your desired darker color */
-            border: 0.5px solid gray; /* Add a border to the notes container */
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Add a box-shadow to the notes container */
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .notes-title {
-            font-family: 'calibri', sans-serif;
-            font-size: 20px;
-            font-weight: bold;
-            color: black;
-            margin-bottom: 10px;
-        }
-        footer {
-            background-color: #f7f7f7;
-            padding: 20px;
-            text-align: center;
-        }
-
-        footer small {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .client-checklist {
-            position: relative;
-            z-index: 1;
-        }
-
-        .client-checklist .checklist-toggle {
-            background-color: #3ddad7;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
-        .client-checklist .checklist-toggle:hover {
-            background-color: #30c5c2;
-        }
-
-        .client-checklist .checklist-content {
-            position: absolute;
-            top: 50px;
-            left: 10px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
-        }
-
-        .client-checklist h3 {
-            font-size: 24px;
-            color: #3ddad7;
-            margin-bottom: 20px;
-        }
-
-        .client-checklist ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .client-checklist li {
-            font-size: 15px;
-            color: #333;
-            margin-bottom: 10px;
-            padding-left: 30px;
-            position: relative;
-            max-width: calc(100% - 30px); /* Set a maximum width for the list items */
-            word-wrap: break-word; /* Allow text wrapping when it reaches the maximum width */
-            display: flex;
-            line-height: 2;
-        }
-
-        .client-checklist li::before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            background-color: #3ddad7;
-            border-radius: 50%;
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .checklist-toggle {
-            font-size: 14px !important; /* Adjust the font size of the button text */
-            padding: 5px 10px !important; /* Adjust the padding around the button text */
-            border-radius: 9px !important; /* Adjust the border radius for rounded corners */
-        }
-
-        .client-checklist input[type="checkbox"].checked {
-            background-color: #3ddad7 !important;
-            border-color: #3ddad7 !important;
-            margin-right: 4px !important;
-        }
-        .client-checklist li:nth-child(odd) {
-            background-color: #f2f2f2; /* Add alternate background colors */
-        }
-
-    </style>
-</head>
+    }
+</style>
 
 <body>
     <div class="container">
-        <div class="logo-container">
-            <a href="https://www.origenrealty.com/" target="_blank">
-                <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo">
-            </a>
-        </div>
+        <div class="logo-container"> <a href="https://www.origenrealty.com/" target="_blank"> <img src="{{ url_for('static', filename='OG_Logo_Black.PNG') }}" alt="Logo" class="logo"> </a> </div>
         <h1>Preferred Insurance Providers</h1>
-
-        <div class="insurance-container">
+        <div class="provider-container insurance-container">
             <h2>ABC Insurance</h2>
             <p><a href="http://www.ABCinsurance.com">www.ABCinsurance.com</a></p>
+            <p>Phone: (123) 456-7890</p>
             <p>Why we choose this company? Because of XYZ...</p>
         </div>
-
-        <div class="insurance-container">
+        <div class="provider-container insurance-container">
             <h2>Acme Insurance</h2>
             <p><a href="http://www.Acmeinsurance.com">www.Acmeinsurance.com</a></p>
+            <p>Phone: (234) 567-8910</p>
             <p>Why we choose this company? Because of XYZ...</p>
-        </div>
-
-        <!-- Add more insurance containers here -->
-
+        </div> <!-- Add more insurance containers here -->
         <h1>Preferred Inspection Companies</h1>
-
-        <div class="inspection-container">
+        <div class="provider-container inspection-container">
             <h2>ABC Inspection</h2>
             <p><a href="http://www.ABCinspection.com">www.ABCinspection.com</a></p>
+            <p>Phone: (345) 678-9123</p>
             <p>Why we choose this company? Because of XYZ...</p>
         </div>
-
-        <div class="inspection-container">
+        <div class="provider-container inspection-container">
             <h2>Acme Inspection</h2>
             <p><a href="http://www.Acmeinspection.com">www.Acmeinspection.com</a></p>
+            <p>Phone: (456) 789-1234</p>
             <p>Why we choose this company? Because of XYZ...</p>
-        </div>
-
-        <!-- Add more inspection containers here -->
-
+        </div> <!-- Add more inspection containers here -->
     </div>
 </body>
 
