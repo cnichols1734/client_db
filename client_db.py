@@ -22,11 +22,13 @@ with app.app_context():
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 # Create the User class
 class User(UserMixin):
     id = 1
     username = "admin"
     password = "Cassiechris177!"
+
 
 # User loading and validation functions
 @login_manager.user_loader
@@ -35,8 +37,10 @@ def load_user(user_id):  # Add the user_id argument
         return User()
     return None
 
+
 def validate_user(username, password):
     return username == User.username and password == User.password
+
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,6 +53,7 @@ def login():
             login_user(user, remember=True)
             return redirect(url_for('index'))
     return render_template('login.html')
+
 
 DATE_FORMAT = '%Y-%m-%d'
 
@@ -190,8 +195,6 @@ def update_property(id):
     )
 
 
-
-
 @app.route('/delete_client_and_property/<int:id>', methods=['POST'])
 def delete_client_and_property(id):
     # First, delete all associated properties
@@ -206,8 +209,6 @@ def delete_client_and_property(id):
 
     flash('Client and all associated properties have been deleted!', 'success')
     return redirect(url_for('index'))
-
-
 
 
 @app.route('/clients')
@@ -246,6 +247,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
 @app.route('/public')
 def public_home():
     return render_template('public_home.html')
@@ -256,6 +258,7 @@ def main():
     app.run(debug=True, host='0.0.0.0', port=5001)
     with app.app_context():
         db.create_all()
+
 
 if __name__ == '__main__':
     main()
