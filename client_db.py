@@ -219,9 +219,9 @@ def clients():
     return render_template('clients.html', clients=clients)
 
 
-@app.route('/preferred_providers')
-def preferred_providers():
-    return render_template('preferred_providers.html')
+@app.route('/third_party_referrals')
+def third_party_referrals():
+    return render_template('third_party_referrals.html')
 
 
 @app.route('/')
