@@ -280,11 +280,15 @@
         <!--    top: 60%;-->
         <!--    transform: translateY(-50%);-->
         <!--}-->
-        .checklist-toggle {
-            font-size: 14px !important; /* Adjust the font size of the button text */
-            padding: 5px 10px !important; /* Adjust the padding around the button text */
-            border-radius: 9px !important; /* Adjust the border radius for rounded corners */
+                .checklist-toggle {
+            font-size: 24px !important;
+            padding: 5px 10px !important;
+            border-radius: 9px !important;
+            margin-left: 150px;
+            margin-top: 10px; /* Add this line to move the button down vertically */
+            display: block;
         }
+
 
         .client-checklist input[type="checkbox"] {
             margin-top: 7px; /* Add this line */
@@ -421,11 +425,11 @@
                 <div class="field-description"> {% if property.property_type == 'Seller' %} <ul>
                         <li>This is the day we've all been waiting for! The closing is scheduled to happen on or before this date.</li> <br>
                         <li>Occasionally, the parties to a transaction will agree to extend the closing date due to lending or other delays, but currently, this is the agreed upon closing date.</li> <br>
-                        <li>For closing, <strong>please remember to bring your photo ID</strong> and a voided check or account information for the account that you would like your proceeds to be wired to.</li>
+                        <li>For closing, <strong>please remember to bring your current photo ID</strong> and a voided check or account information for the account that you would like your proceeds to be wired to.</li>
                     </ul> {% elif property.property_type == 'Buyer' %} <ul>
                         <li>This is the day we've all been waiting for! The closing is scheduled to happen on or before this date.</li> <br>
                         <li>Occasionally, the parties to a transaction will agree to extend the closing date due to lending or other delays, but currently, this is the agreed upon closing date.</li> <br>
-                        <li>For closing, <strong>please remember to bring your photo ID.</strong></li>
+                        <li>For closing, <strong>please remember to bring your current photo ID.</strong></li>
                     </ul> {% endif %} </div>
             </div> {% if property.notes %} <div class="field notes-container">
                 <div class="notes-title">Notes:</div>
@@ -515,7 +519,7 @@
         document.addEventListener('click', handleClickOutside);
             });
     </script>
-    <footer> <small>Legal Disclosure: Anything you see here is just for your damn convenience, we are not lawyers.</small> </footer>
+    <footer> <small><strong>Disclaimer:</strong> While we have made every attempt to ensure that the information contained in this site has been obtained from the most relevant terms of your transaction, Origen Realty is not responsible for any errors or omissions. For legal advice, please consult an attorney.</small> </footer>
     </div>
 </body>
 
