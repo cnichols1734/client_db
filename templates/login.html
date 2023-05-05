@@ -69,32 +69,6 @@
         <h3>Login</h3>
         <form method="POST" action="{{ url_for('login') }}" id="login-form"> <input type="text" name="username" placeholder="Username" required> <input type="password" name="password" placeholder="Password" required id="password-input"> <button type="submit">Login</button> </form>
     </div>
-    <script>
-        // Get the login form and password input element
-        const loginForm = document.querySelector('#login-form');
-        const passwordInput = document.querySelector('#password-input');
-
-        // Add a submit event listener to the login form
-        loginForm.addEventListener('submit', (event) => {
-          // Prevent the form from submitting normally
-          event.preventDefault();
-
-          // Get the password entered by the user
-          const password = passwordInput.value;
-
-          // Check if the password is correct
-          if (password !== 'Cassiechris177!') {
-            // If the password is incorrect, display a pop-up alert
-            ('Incorrect password. Please try again.');
-
-            // Clear the password input field
-            passwordInput.value = '';
-          } else {
-            // If the password is correct, submit the form
-            loginForm.submit();
-          }
-        });
-    </script>
 </body>
 
 </html>

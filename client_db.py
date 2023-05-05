@@ -27,7 +27,7 @@ login_manager.init_app(app)
 class User(UserMixin):
     id = 1
     username = "admin"
-    password = "Cassiechris177!"
+    password = "og2023!"
 
 
 # User loading and validation functions
@@ -39,7 +39,8 @@ def load_user(user_id):  # Add the user_id argument
 
 
 def validate_user(username, password):
-    return username == User.username and password == User.password
+    return username.lower() == User.username.lower() and password == User.password
+
 
 
 # Login route
