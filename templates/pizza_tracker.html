@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Agent Onboarding Progress</title>
+    <style>
+
+        body {
+            font-family: Calibri, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #E0E0E0, #F5F5F5);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 90%;
+            margin: 10px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            margin: 0; /* Remove the bottom margin */
+            padding: 10px 0; /* Add padding to top and bottom of the h1 element */
+            color: white;
+            font-family: Calibri, sans-serif;
+            font-size: 40px;
+            font-weight: bold;
+            background-color: #32c2bf;
+            border-radius: 10px;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+            height: 25px; /* Add a specific height */
+            overflow: hidden; /* Prevent content from overflowing the cell */
+        }
+        th {
+            background-color: #32c2bf;
+            font-weight: bold;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto; /* Add this line to center the modal vertically */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%; /* Change this to modify the width of the modal */
+        max-width: 290px; /* Add this line to limit the maximum width */
+            }
+
+            /* Add or update this style to ensure the buttons are horizontally aligned */
+            .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+            }
+
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        button[type="submit"],
+        .add-property-btn {
+            background-color: #32c2bf;
+            color: #fff;
+            border: none;
+            padding: 5px 11px; /* Adjust the padding here */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px; /* Adjust the margin-top here */
+            margin-left: 10px;
+            font-size: 13px; /* Add font size for consistency */
+            line-height: 1; /* Add line-height for better vertical alignment */
+             border-radius: 25px;
+        }
+
+        button[type="submit"]:hover,
+            .add-property-btn:hover {
+        background-color: #279a97;
+            }
+
+        .logout-button-container {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 14px;
+            }
+
+            .logout-btn {
+        background-color: #32c2bf;
+        color: #fff;
+        border: none;
+        padding: 2px 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 5px;
+        font-size: 10px;
+        width: 60px;
+            }
+
+            .logout-btn:hover {
+        background-color: #32c2bf;
+            }
+        .dark-toggle-btn {
+            background-color: inherit;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-btn {
+            background-color: #C8C8C8;
+            color: #fff;
+            border: black;
+            padding: 1px 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 8px;
+            font-size: 9px;
+            width: 35px; /* Add your desired width here */
+        }
+
+        .logout-btn:hover {
+            background-color: #32c2bf;
+        }
+        table {
+            table-layout: fixed; /* Add this property to set a fixed table layout */
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 60%; /* Adjust the width of the Client Name column */
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 20%; /* Adjust the width of the Add Property column */
+            white-space: nowrap; /* Prevent wrapping of content inside the cell */
+        }
+         /* Add a new style for the Edit button */
+        .edit-client-btn {
+            background-color:  #87CEEB;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+            margin-left: 6px;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
+
+        .edit-client-btn:hover {
+            background-color: #279a97;
+        }
+        .delete-button {
+          background-color: #e74c3c;
+          border: none;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+          margin-left: 5px;
+          padding: 5px 11px;
+          transition: background-color 0.3s;
+        }
+
+        @keyframes warningBackground {
+            5% { background-color: #e74c3c; }
+            20% { background-color: #f1c40f; }
+            40% { background-color: #e74c3c; }
+            60% { background-color: #f1c40f; }
+            80% { background-color: #e74c3c; }
+            100% { background-color: #f1c40f; }
+        }
+
+        .delete-button:hover {
+            animation: warningBackground 1.5s infinite;
+        }
+        .view-property-btn {
+            background-color: #32c2bf;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
+
+        .view-property-btn:hover {
+            background-color: #279a97;
+        }
+        .header-actions {
+        display: flex;
+        justify-content: space-between;
+        <!--        align-items: center;-->
+            }
+
+            .header-actions > form {
+        margin-right: 16px;
+            }
+
+            table {
+            table-layout: fixed; /* Add this property to set a fixed table layout */
+        }
+                th:nth-child(1), td:nth-child(1) {
+          width: 12%;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+          width: 28%; /* Adjust the width of the Client Name column */
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+          width: 28%; /* Adjust the width of the Agent Name column */
+          white-space: nowrap;
+        }
+
+        th:nth-child(4), td:nth-child(4) {
+          width: 12%; /* Adjust the width of the Properties column */
+          text-align: center;
+        }
+
+        th:nth-child(5), td:nth-child(5) {
+          width: 20%; /* Adjust the width of the Actions column */
+          text-align: center;
+        }
+
+        td, th {
+          padding: 0.5rem; /* Change the padding value */
+          margin: 0.5rem; /* Change the margin value */
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+        button[type="submit"] {
+        margin-top: 24px;
+        width: 120%;
+        max-width: 100px;
+        height: 25px;
+        padding: 1px;
+        font-size: 12px;
+        line-height: 1;
+        }
+
+        .agent-name-select {
+            font-family: Calibri, sans-serif;
+            font-size: 12.5px;
+            padding: 6px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 110%;
+            appearance: none;
+            color: #737373;
+        }
+
+        .save-button-modal {
+            background-color: #32c2bf;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 5px;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
+
+        .save-button-modal:hover {
+            background-color: #279a97;
+        }
+
+        .cancel-button-modal {
+            background-color: #C8C8C8;
+            color: #fff;
+            border: none;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 13px;
+            line-height: 1;
+            border-radius: 25px;
+        }
+
+        .cancel-button-modal:hover {
+            background-color: #A5A5A5;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 170px; /* Adjust this value to control the space above and below the logo */
+            border-radius: 10px; /* Optional: Add border-radius to match the container border */
+        }
+
+        .logo {
+            display: block;
+            max-width: 580px; /* Adjust the width of the logo */
+            height: auto;
+            margin: 0;
+            animation: fade-in 1.5s ease-out forwards;
+        }
+        @keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+        /* Additional styles for the progress tracker */
+        #progressContainer {
+            width: 90%;
+            background-color: #ccc;
+            margin: auto;
+            border-radius: 10px;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 30px;
+            background-color: #32c2bf;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+            border-radius: 10px 0 0 10px;
+        }
+
+        /* Styles for step graphics and checkboxes */
+        .step-graphics-container, .checkbox-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .step-graphic, .checkbox-wrapper {
+            flex: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Onboarding Progress</h1>
+    <h2 style="text-align: center;">Agent: John Doe</h2>
+
+    <div id="progressContainer">
+        <div id="progressBar">0%</div>
+    </div>
+
+
+<!-- Step Graphics Container -->
+<div class="step-graphics-container">
+
+    <div class="step-graphic" id="step-graphic-1">
+        <img src="static/step1.png" alt="Step 1 Graphic">
+        <p>CRM - RealOffice360</p>
+        <p>Enter a minimum of 100 contacts into your CRM. </p>
+    </div>
+
+
+    <div class="step-graphic" id="step-graphic-2">
+        <img src="static/step2.png" alt="Step 2 Graphic">
+        <p>Agent Setup Complete</p>
+    </div>
+
+
+    <div class="step-graphic" id="step-graphic-3">
+        <img src="static/step3.png" alt="Step 3 Graphic">
+        <p>Training Complete</p>
+    </div>
+
+
+    <div class="step-graphic" id="step-graphic-4">
+        <img src="static/step4.png" alt="Step 4 Graphic">
+        <p>Test Complete</p>
+    </div>
+
+
+    <div class="step-graphic" id="step-graphic-5">
+        <img src="static/step5.png" alt="Step 5 Graphic">
+        <p>Postcards Sent</p>
+    </div>
+
+
+    <div class="step-graphic" id="step-graphic-6">
+        <img src="static/step6.png" alt="Step 6 Graphic">
+        <p>Agent is Ready</p>
+    </div>
+
+</div>
+
+
+
+<!-- Step Checkboxes Container -->
+<div class="checkbox-container">
+    <div class="checkbox-wrapper"><input type="checkbox" id="step1" name="step1" value="1" onclick="updateProgress()"></div><div class="checkbox-wrapper"><input type="checkbox" id="step2" name="step2" value="2" onclick="updateProgress()"></div><div class="checkbox-wrapper"><input type="checkbox" id="step3" name="step3" value="3" onclick="updateProgress()"></div><div class="checkbox-wrapper"><input type="checkbox" id="step4" name="step4" value="4" onclick="updateProgress()"></div><div class="checkbox-wrapper"><input type="checkbox" id="step5" name="step5" value="5" onclick="updateProgress()"></div><div class="checkbox-wrapper"><input type="checkbox" id="step6" name="step6" value="6" onclick="updateProgress()"></div>
+</div>
+
+</div>
+
+<script>
+    function updateProgress() {
+        let checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        let step = checkedBoxes.length;
+        let percentage = ((step / 6) * 100).toFixed(0); // Rounded to whole number
+        document.getElementById("progressBar").style.width = percentage + "%";
+        document.getElementById("progressBar").innerText = percentage + "%";
+
+        // Update the border-radius for 100% completion
+        if (percentage === "100") {
+            document.getElementById("progressBar").style.borderRadius = "10px";
+        } else {
+            document.getElementById("progressBar").style.borderRadius = "10px 0 0 10px";
+        }
+
+        // Here you would also send the update to the Flask backend
+    }
+</script>
+
+</body>
+</html>

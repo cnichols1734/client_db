@@ -377,11 +377,20 @@
         opacity: 1;
     }
 }
+#agent-onboarding-link {
+    text-align: right;
+}
+
 
     </style>
 </head>
 
 <body>
+<div id="agent-onboarding-link">
+    <a href="{{ url_for('pizza_tracker') }}">Agent Onboarding</a>
+</div>
+
+
     <!-- Logout button -->
     <div class="logout-button-container">
         <form action="{{ url_for('logout') }}" method="POST"> <input class="logout-btn" type="submit" value="Logout"> </form>

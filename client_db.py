@@ -212,6 +212,10 @@ def delete_client_and_property(id):
     return redirect(url_for('index'))
 
 
+@app.route('/pizza_tracker')
+def pizza_tracker():
+    return render_template('pizza_tracker.html')
+
 @app.route('/clients')
 def clients():
     clients = Client.query.all()
